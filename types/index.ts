@@ -10,7 +10,7 @@ export interface VocabWord {
   phonetic: string;
 }
 
-export type UserProfile = "papa" | "Eya";
+export type UserProfile = "papa" | "Eya" | "Ma khadija" | "Maman";
 
 export interface WordProgress {
   wordId: string;

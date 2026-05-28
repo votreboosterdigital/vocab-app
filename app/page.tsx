@@ -65,13 +65,13 @@ export default function HomePage() {
         <p className="text-center text-sm font-semibold text-gray-500 uppercase tracking-wide mb-3">
           Qui joue ?
         </p>
-        <div className="flex gap-4 justify-center">
-          {(["papa", "Eya"] as UserProfile[]).map((p) => (
+        <div className="grid grid-cols-2 gap-3">
+          {(["papa", "Eya", "Ma khadija", "Maman"] as UserProfile[]).map((p) => (
             <button
               key={p}
               onClick={() => handleSelectProfile(p)}
               className={`
-                flex-1 py-5 rounded-2xl border-2 font-display text-2xl font-bold
+                flex-1 py-4 rounded-2xl border-2 font-display text-xl font-bold
                 transition-all duration-200 ease-out
                 hover:scale-105 hover:shadow-md active:scale-95
                 ${profile === p
@@ -80,7 +80,7 @@ export default function HomePage() {
                 }
               `}
             >
-              {p === "papa" ? "👨 Papa" : "👧 Eya"}
+              {p === "papa" ? "👨 Papa" : p === "Eya" ? "👧 Eya" : p === "Ma khadija" ? "👩 Ma khadija" : "👩‍🦱 Maman"}
             </button>
           ))}
         </div>

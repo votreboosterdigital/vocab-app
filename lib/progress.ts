@@ -1,4 +1,4 @@
-import type { UserProfile, UserProgress, WordProgress, GameSession } from "@/types";
+import type { UserProfile, UserProgress, WordProgress, GameSession, WordLevel } from "@/types";
 import { WORDS, getWordsByLevel } from "@/lib/words";
 import type { VocabWord } from "@/types";
 
@@ -59,7 +59,7 @@ export function getMasteredCount(profile: UserProfile): number {
 
 export function getWordsToReview(
   profile: UserProfile,
-  level?: 1 | 2 | 3 | "all"
+  level?: WordLevel | "all"
 ): VocabWord[] {
   const progress = getProgress(profile);
   const pool = level ? getWordsByLevel(level) : WORDS;

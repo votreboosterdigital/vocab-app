@@ -2,9 +2,9 @@
 
 import { Suspense, useState, useEffect, useCallback } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
-import type { VocabWord, UserProfile, GenerateFillResponse } from "@/types";
+import type { VocabWord, UserProfile, GenerateFillResponse, WordLevel } from "@/types";
 import { getWordsToReview, markWord, addSession } from "@/lib/progress";
-import { getDistractors } from "@/lib/words";
+import { getDistractors, VALID_LEVELS } from "@/lib/words";
 import Navigation from "@/components/Navigation";
 import ProgressBar from "@/components/ProgressBar";
 import ScoreDisplay from "@/components/ScoreDisplay";
@@ -34,7 +34,7 @@ function FillContent() {
     searchParams.get("level") ??
     (typeof window !== "undefined" ? sessionStorage.getItem("vocabapp_level") : "all") ??
     "all";
-  const level = (levelParam === "1" ? 1 : levelParam === "2" ? 2 : levelParam === "3" ? 3 : "all") as 1 | 2 | 3 | "all";
+  const level = (VALID_LEVELS.includes(levelParam as WordLevel) ? (levelParam as WordLevel) : "all") as WordLevel | "all";
 
   const [words, setWords] = useState<VocabWord[]>([]);
   const [currentIndex, setCurrentIndex] = useState(0);

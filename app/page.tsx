@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import type { UserProfile } from "@/types";
+import type { UserProfile, WordLevel } from "@/types";
 import { getProgress, getMasteredCount, updateStreak, setSessionProfile } from "@/lib/progress";
 import { WORDS } from "@/lib/words";
 
@@ -12,16 +12,18 @@ const MODES = [
   { href: "/fill",       emoji: "✏️", title: "Complète la phrase",   desc: "Trouve le mot manquant",          color: "from-accent/30 to-accent/10",     border: "border-accent/40"   },
 ] as const;
 
-const LEVELS = [
-  { value: "1" as const, label: "Niveau 1", emoji: "⭐", color: "bg-green-100 text-green-700 border-green-300" },
-  { value: "2" as const, label: "Niveau 2", emoji: "⭐⭐", color: "bg-yellow-100 text-yellow-700 border-yellow-300" },
-  { value: "3" as const, label: "Niveau 3", emoji: "⭐⭐⭐", color: "bg-purple-100 text-purple-700 border-purple-300" },
-  { value: "all" as const, label: "Tout",   emoji: "🌈", color: "bg-primary/10 text-primary border-primary/30" },
-] as const;
+const LEVELS: { value: WordLevel | "all"; label: string; color: string }[] = [
+  { value: "A1",  label: "A1",  color: "bg-emerald-100 text-emerald-700 border-emerald-300" },
+  { value: "A2",  label: "A2",  color: "bg-green-100 text-green-700 border-green-300" },
+  { value: "B1",  label: "B1",  color: "bg-yellow-100 text-yellow-700 border-yellow-300" },
+  { value: "B2",  label: "B2",  color: "bg-orange-100 text-orange-700 border-orange-300" },
+  { value: "C1",  label: "C1",  color: "bg-purple-100 text-purple-700 border-purple-300" },
+  { value: "all", label: "Tout",color: "bg-primary/10 text-primary border-primary/30" },
+];
 
 export default function HomePage() {
   const [profile, setProfile] = useState<UserProfile | null>(null);
-  const [selectedLevel, setSelectedLevel] = useState<"1" | "2" | "3" | "all">("all");
+  const [selectedLevel, setSelectedLevel] = useState<WordLevel | "all">("all");
   const [mastered, setMastered] = useState(0);
   const [streak, setStreak] = useState(0);
 
@@ -42,7 +44,7 @@ export default function HomePage() {
     setStreak(updateStreak(p));
   }
 
-  function handleLevelChange(level: "1" | "2" | "3" | "all") {
+  function handleLevelChange(level: WordLevel | "all") {
     setSelectedLevel(level);
     sessionStorage.setItem("vocabapp_level", level);
   }
@@ -122,7 +124,7 @@ export default function HomePage() {
               key={lvl.value}
               onClick={() => handleLevelChange(lvl.value)}
               className={`
-                flex items-center gap-1.5 px-4 py-2 rounded-full border-2 font-semibold text-sm
+                px-4 py-2 rounded-full border-2 font-bold text-sm
                 transition-all duration-150
                 ${selectedLevel === lvl.value
                   ? lvl.color + " shadow-sm scale-105"
@@ -130,7 +132,6 @@ export default function HomePage() {
                 }
               `}
             >
-              <span>{lvl.emoji}</span>
               {lvl.label}
             </button>
           ))}

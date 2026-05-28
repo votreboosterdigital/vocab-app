@@ -2,7 +2,8 @@
 
 import { Suspense, useState, useEffect, useCallback } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
-import type { VocabWord, UserProfile, GenerateSentenceResponse } from "@/types";
+import type { VocabWord, UserProfile, GenerateSentenceResponse, WordLevel } from "@/types";
+import { VALID_LEVELS } from "@/lib/words";
 import { getWordsToReview, markWord, addSession } from "@/lib/progress";
 import Navigation from "@/components/Navigation";
 import WordCard from "@/components/WordCard";
@@ -39,7 +40,7 @@ function FlashcardsContent() {
   const profileParam = searchParams.get("profile") as UserProfile | null;
   const profile: UserProfile = profileParam ?? (typeof window !== "undefined" ? (sessionStorage.getItem("vocabapp_profile") as UserProfile) : "papa") ?? "papa";
   const levelParam = searchParams.get("level") ?? (typeof window !== "undefined" ? sessionStorage.getItem("vocabapp_level") : "all") ?? "all";
-  const level = (levelParam === "1" ? 1 : levelParam === "2" ? 2 : levelParam === "3" ? 3 : "all") as 1 | 2 | 3 | "all";
+  const level = (VALID_LEVELS.includes(levelParam as WordLevel) ? (levelParam as WordLevel) : "all") as WordLevel | "all";
 
   const [words, setWords] = useState<VocabWord[]>([]);
   const [currentIndex, setCurrentIndex] = useState(0);

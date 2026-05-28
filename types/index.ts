@@ -1,4 +1,4 @@
-export type WordLevel = 1 | 2 | 3;
+export type WordLevel = "A1" | "A2" | "B1" | "B2" | "C1";
 
 export interface VocabWord {
   id: string;

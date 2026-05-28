@@ -182,6 +182,18 @@ export default function HomePage() {
           </p>
         )}
       </section>
+
+      {/* Dashboard */}
+      <section className="mt-6">
+        <Link
+          href="/dashboard"
+          className="flex items-center justify-center gap-3 py-4 rounded-2xl border-2 border-gray-200 bg-white text-gray-600 font-bold hover:border-primary/30 hover:text-primary transition-all duration-200 hover:scale-[1.02]"
+        >
+          <span className="text-2xl">📊</span>
+          <span>Tableau de bord &amp; classement</span>
+          <span className="ml-auto text-gray-400">→</span>
+        </Link>
+      </section>
     </main>
   );
 }

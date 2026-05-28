@@ -44,6 +44,7 @@ function QuizContent() {
   const [loadingChoices, setLoadingChoices] = useState(false);
   const [done, setDone] = useState(false);
   const [feedback, setFeedback] = useState<"correct" | "wrong" | null>(null);
+  const [waitingNext, setWaitingNext] = useState(false);
 
   useEffect(() => {
     setWords(getWordsToReview(profile, level).slice(0, SESSION_SIZE));
@@ -56,6 +57,7 @@ function QuizContent() {
       setLoadingChoices(true);
       setSelected(null);
       setFeedback(null);
+      setWaitingNext(false);
       try {
         const localDistractors = getDistractors(word, 3);
         let distractorWords = localDistractors.map((d) => d.word);
@@ -118,14 +120,28 @@ function QuizContent() {
     setReviewedIds(newReviewed);
     if (!correct) setWrongWords((ww) => [...ww, currentWord]);
 
-    setTimeout(() => {
-      if (currentIndex + 1 >= words.length) {
-        addSession(profile, { mode: "quiz", score: newScore, wordsReviewed: newReviewed });
-        setDone(true);
-      } else {
-        setCurrentIndex((i) => i + 1);
-      }
-    }, 1200);
+    if (correct) {
+      setTimeout(() => {
+        if (currentIndex + 1 >= words.length) {
+          addSession(profile, { mode: "quiz", score: newScore, wordsReviewed: newReviewed });
+          setDone(true);
+        } else {
+          setCurrentIndex((i) => i + 1);
+        }
+      }, 1200);
+    } else {
+      setWaitingNext(true);
+    }
+  }
+
+  function handleNext() {
+    setWaitingNext(false);
+    if (currentIndex + 1 >= words.length) {
+      addSession(profile, { mode: "quiz", score, wordsReviewed: reviewedIds });
+      setDone(true);
+    } else {
+      setCurrentIndex((i) => i + 1);
+    }
   }
 
   function restart(reviewWrong = false) {
@@ -268,6 +284,15 @@ function QuizContent() {
             ? "✅ Excellent ! Tu avais raison !"
             : `❌ La bonne réponse était : ${currentWord.translation}`}
         </div>
+      )}
+
+      {waitingNext && (
+        <button
+          onClick={handleNext}
+          className="w-full py-4 bg-primary text-white rounded-2xl font-bold text-lg hover:opacity-90 transition hover:scale-105 animate-slide-up"
+        >
+          Suivant →
+        </button>
       )}
     </div>
   );

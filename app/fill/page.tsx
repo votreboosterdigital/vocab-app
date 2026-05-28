@@ -45,6 +45,7 @@ function FillContent() {
   const [loading, setLoading] = useState(false);
   const [done, setDone] = useState(false);
   const [feedback, setFeedback] = useState<"correct" | "wrong" | null>(null);
+  const [waitingNext, setWaitingNext] = useState(false);
 
   useEffect(() => {
     setWords(getWordsToReview(profile, level).slice(0, SESSION_SIZE));
@@ -56,6 +57,7 @@ function FillContent() {
     setLoading(true);
     setSelected(null);
     setFeedback(null);
+    setWaitingNext(false);
     setQuestion(null);
     try {
       const distractors = getDistractors(word, 2).map((d) => d.word);
@@ -102,14 +104,28 @@ function FillContent() {
     const newReviewed = [...reviewedIds, question.word.id];
     setReviewedIds(newReviewed);
 
-    setTimeout(() => {
-      if (currentIndex + 1 >= words.length) {
-        addSession(profile, { mode: "fill", score: newScore, wordsReviewed: newReviewed });
-        setDone(true);
-      } else {
-        setCurrentIndex((i) => i + 1);
-      }
-    }, 1500);
+    if (correct) {
+      setTimeout(() => {
+        if (currentIndex + 1 >= words.length) {
+          addSession(profile, { mode: "fill", score: newScore, wordsReviewed: newReviewed });
+          setDone(true);
+        } else {
+          setCurrentIndex((i) => i + 1);
+        }
+      }, 1200);
+    } else {
+      setWaitingNext(true);
+    }
+  }
+
+  function handleNext() {
+    setWaitingNext(false);
+    if (currentIndex + 1 >= words.length) {
+      addSession(profile, { mode: "fill", score, wordsReviewed: reviewedIds });
+      setDone(true);
+    } else {
+      setCurrentIndex((i) => i + 1);
+    }
   }
 
   function restart() {
@@ -234,6 +250,15 @@ function FillContent() {
             ? `✅ "${question.answer}" — ${question.word.translation} !`
             : `❌ La réponse était : ${question.answer}`}
         </div>
+      )}
+
+      {waitingNext && (
+        <button
+          onClick={handleNext}
+          className="w-full py-4 bg-primary text-white rounded-2xl font-bold text-lg hover:opacity-90 transition hover:scale-105 animate-slide-up"
+        >
+          Suivant →
+        </button>
       )}
     </div>
   );

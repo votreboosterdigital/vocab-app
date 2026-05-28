@@ -172,9 +172,8 @@ function FillContent() {
         <h2 className="font-display text-3xl font-bold text-gray-800 text-center">
           {question.word.translation}
         </h2>
-        <div className="flex items-center gap-2 text-gray-400 text-sm">
+        <div className="flex items-center justify-center">
           <AudioButton word={question.word.word} size="sm" />
-          <span className="font-mono text-xs">/{question.word.phonetic}/</span>
         </div>
       </div>
 

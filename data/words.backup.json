@@ -1,0 +1,1352 @@
+[
+  {
+    "id": "w001",
+    "word": "though",
+    "translation": "pourtant / même si",
+    "level": "A2",
+    "category": "connecteurs",
+    "emoji": "🔄",
+    "phonetic": "ðoʊ"
+  },
+  {
+    "id": "w002",
+    "word": "yet",
+    "translation": "encore / pourtant",
+    "level": "A2",
+    "category": "connecteurs",
+    "emoji": "⏳",
+    "phonetic": "jɛt"
+  },
+  {
+    "id": "w003",
+    "word": "anyway",
+    "translation": "de toute façon",
+    "level": "A2",
+    "category": "connecteurs",
+    "emoji": "🤷",
+    "phonetic": "ɛniweɪ"
+  },
+  {
+    "id": "w004",
+    "word": "actually",
+    "translation": "en fait",
+    "level": "A2",
+    "category": "connecteurs",
+    "emoji": "💡",
+    "phonetic": "æktʃuəli"
+  },
+  {
+    "id": "w005",
+    "word": "instead",
+    "translation": "à la place / plutôt",
+    "level": "A2",
+    "category": "connecteurs",
+    "emoji": "🔁",
+    "phonetic": "ɪnstɛd"
+  },
+  {
+    "id": "w006",
+    "word": "rather",
+    "translation": "plutôt",
+    "level": "A2",
+    "category": "connecteurs",
+    "emoji": "⚖️",
+    "phonetic": "ræðər"
+  },
+  {
+    "id": "w007",
+    "word": "unless",
+    "translation": "à moins que / sauf si",
+    "level": "B1",
+    "category": "connecteurs",
+    "emoji": "🚫",
+    "phonetic": "ənlɛs"
+  },
+  {
+    "id": "w008",
+    "word": "barely",
+    "translation": "à peine",
+    "level": "B1",
+    "category": "quantité",
+    "emoji": "📉",
+    "phonetic": "bɛrli"
+  },
+  {
+    "id": "w009",
+    "word": "hardly",
+    "translation": "à peine / presque pas",
+    "level": "B1",
+    "category": "quantité",
+    "emoji": "😶",
+    "phonetic": "hɑːrdli"
+  },
+  {
+    "id": "w010",
+    "word": "nearly",
+    "translation": "presque",
+    "level": "A2",
+    "category": "quantité",
+    "emoji": "🎯",
+    "phonetic": "nɪərli"
+  },
+  {
+    "id": "w011",
+    "word": "quite",
+    "translation": "assez / vraiment",
+    "level": "A2",
+    "category": "quantité",
+    "emoji": "✨",
+    "phonetic": "kwaɪt"
+  },
+  {
+    "id": "w012",
+    "word": "fairly",
+    "translation": "assez / plutôt",
+    "level": "B1",
+    "category": "quantité",
+    "emoji": "⚖️",
+    "phonetic": "fɛərli"
+  },
+  {
+    "id": "w013",
+    "word": "somehow",
+    "translation": "d'une façon ou d'une autre",
+    "level": "B1",
+    "category": "connecteurs",
+    "emoji": "🤔",
+    "phonetic": "sʌmhaʊ"
+  },
+  {
+    "id": "w014",
+    "word": "whatever",
+    "translation": "quoi que ce soit / n'importe quoi",
+    "level": "A2",
+    "category": "connecteurs",
+    "emoji": "🤷",
+    "phonetic": "wɒtɛvər"
+  },
+  {
+    "id": "w015",
+    "word": "whenever",
+    "translation": "chaque fois que / quand",
+    "level": "B1",
+    "category": "temps",
+    "emoji": "⏰",
+    "phonetic": "wɛnɛvər"
+  },
+  {
+    "id": "w016",
+    "word": "except",
+    "translation": "sauf / à part",
+    "level": "A2",
+    "category": "connecteurs",
+    "emoji": "❌",
+    "phonetic": "ɪksɛpt"
+  },
+  {
+    "id": "w017",
+    "word": "beyond",
+    "translation": "au-delà / plus loin",
+    "level": "B1",
+    "category": "connecteurs",
+    "emoji": "🔭",
+    "phonetic": "biɒnd"
+  },
+  {
+    "id": "w018",
+    "word": "despite",
+    "translation": "malgré",
+    "level": "B1",
+    "category": "connecteurs",
+    "emoji": "💪",
+    "phonetic": "dɪspaɪt"
+  },
+  {
+    "id": "w019",
+    "word": "whereas",
+    "translation": "alors que / tandis que",
+    "level": "C1",
+    "category": "connecteurs",
+    "emoji": "🆚",
+    "phonetic": "wɛræz"
+  },
+  {
+    "id": "w020",
+    "word": "meanwhile",
+    "translation": "pendant ce temps",
+    "level": "B1",
+    "category": "temps",
+    "emoji": "⏱️",
+    "phonetic": "miːnwaɪl"
+  },
+  {
+    "id": "w021",
+    "word": "mostly",
+    "translation": "surtout / principalement",
+    "level": "B1",
+    "category": "quantité",
+    "emoji": "📊",
+    "phonetic": "moʊstli"
+  },
+  {
+    "id": "w022",
+    "word": "slightly",
+    "translation": "légèrement / un peu",
+    "level": "B1",
+    "category": "quantité",
+    "emoji": "📏",
+    "phonetic": "slaɪtli"
+  },
+  {
+    "id": "w023",
+    "word": "otherwise",
+    "translation": "sinon / autrement",
+    "level": "B1",
+    "category": "connecteurs",
+    "emoji": "↩️",
+    "phonetic": "ʌðərwaɪz"
+  },
+  {
+    "id": "w024",
+    "word": "throughout",
+    "translation": "tout au long de",
+    "level": "C1",
+    "category": "temps",
+    "emoji": "📅",
+    "phonetic": "θruːaʊt"
+  },
+  {
+    "id": "w025",
+    "word": "wherever",
+    "translation": "où que ce soit",
+    "level": "B2",
+    "category": "connecteurs",
+    "emoji": "🌍",
+    "phonetic": "wɛrɛvər"
+  },
+  {
+    "id": "w026",
+    "word": "whoever",
+    "translation": "quiconque / celui qui",
+    "level": "B2",
+    "category": "connecteurs",
+    "emoji": "👤",
+    "phonetic": "huːɛvər"
+  },
+  {
+    "id": "w027",
+    "word": "still",
+    "translation": "encore / toujours",
+    "level": "A2",
+    "category": "connecteurs",
+    "emoji": "🔄",
+    "phonetic": "stɪl"
+  },
+  {
+    "id": "w028",
+    "word": "already",
+    "translation": "déjà",
+    "level": "A1",
+    "category": "temps",
+    "emoji": "✅",
+    "phonetic": "ɔːlrɛdi"
+  },
+  {
+    "id": "w029",
+    "word": "just",
+    "translation": "juste / seulement",
+    "level": "A1",
+    "category": "quantité",
+    "emoji": "🎯",
+    "phonetic": "dʒʌst"
+  },
+  {
+    "id": "w030",
+    "word": "even",
+    "translation": "même / encore plus",
+    "level": "A2",
+    "category": "connecteurs",
+    "emoji": "➕",
+    "phonetic": "iːvən"
+  },
+  {
+    "id": "w031",
+    "word": "maybe",
+    "translation": "peut-être",
+    "level": "A1",
+    "category": "connecteurs",
+    "emoji": "🤔",
+    "phonetic": "meɪbi"
+  },
+  {
+    "id": "w032",
+    "word": "probably",
+    "translation": "probablement",
+    "level": "A2",
+    "category": "connecteurs",
+    "emoji": "🎲",
+    "phonetic": "prɒbəbli"
+  },
+  {
+    "id": "w033",
+    "word": "definitely",
+    "translation": "absolument / sans aucun doute",
+    "level": "B1",
+    "category": "connecteurs",
+    "emoji": "✅",
+    "phonetic": "dɛfɪnɪtli"
+  },
+  {
+    "id": "w034",
+    "word": "clearly",
+    "translation": "clairement / visiblement",
+    "level": "B1",
+    "category": "connecteurs",
+    "emoji": "💬",
+    "phonetic": "klɪərli"
+  },
+  {
+    "id": "w035",
+    "word": "simply",
+    "translation": "simplement",
+    "level": "A2",
+    "category": "connecteurs",
+    "emoji": "✂️",
+    "phonetic": "sɪmpli"
+  },
+  {
+    "id": "w036",
+    "word": "suddenly",
+    "translation": "soudainement / tout à coup",
+    "level": "A2",
+    "category": "temps",
+    "emoji": "⚡",
+    "phonetic": "sʌdənli"
+  },
+  {
+    "id": "w037",
+    "word": "exactly",
+    "translation": "exactement",
+    "level": "A2",
+    "category": "connecteurs",
+    "emoji": "🎯",
+    "phonetic": "ɪɡzæktli"
+  },
+  {
+    "id": "w038",
+    "word": "totally",
+    "translation": "totalement",
+    "level": "A2",
+    "category": "quantité",
+    "emoji": "💯",
+    "phonetic": "toʊtəli"
+  },
+  {
+    "id": "w039",
+    "word": "basically",
+    "translation": "en gros / fondamentalement",
+    "level": "A2",
+    "category": "connecteurs",
+    "emoji": "📌",
+    "phonetic": "beɪsɪkli"
+  },
+  {
+    "id": "w040",
+    "word": "literally",
+    "translation": "littéralement",
+    "level": "B1",
+    "category": "connecteurs",
+    "emoji": "📖",
+    "phonetic": "lɪtərəli"
+  },
+  {
+    "id": "w041",
+    "word": "honestly",
+    "translation": "honnêtement / franchement",
+    "level": "A2",
+    "category": "connecteurs",
+    "emoji": "🤝",
+    "phonetic": "ɒnɪstli"
+  },
+  {
+    "id": "w042",
+    "word": "obviously",
+    "translation": "évidemment / de toute évidence",
+    "level": "A2",
+    "category": "connecteurs",
+    "emoji": "👁️",
+    "phonetic": "ɒbvɪəsli"
+  },
+  {
+    "id": "w043",
+    "word": "recently",
+    "translation": "récemment",
+    "level": "A2",
+    "category": "temps",
+    "emoji": "🕐",
+    "phonetic": "riːsəntli"
+  },
+  {
+    "id": "w044",
+    "word": "quickly",
+    "translation": "rapidement / vite",
+    "level": "A1",
+    "category": "temps",
+    "emoji": "🏃",
+    "phonetic": "kwɪkli"
+  },
+  {
+    "id": "w045",
+    "word": "seriously",
+    "translation": "sérieusement / vraiment ?",
+    "level": "A2",
+    "category": "connecteurs",
+    "emoji": "😐",
+    "phonetic": "sɪərɪəsli"
+  },
+  {
+    "id": "w046",
+    "word": "however",
+    "translation": "cependant / pourtant",
+    "level": "B1",
+    "category": "connecteurs",
+    "emoji": "↔️",
+    "phonetic": "haʊɛvər"
+  },
+  {
+    "id": "w047",
+    "word": "therefore",
+    "translation": "donc / par conséquent",
+    "level": "B1",
+    "category": "connecteurs",
+    "emoji": "➡️",
+    "phonetic": "ðɛrfɔːr"
+  },
+  {
+    "id": "w048",
+    "word": "besides",
+    "translation": "en plus / d'ailleurs",
+    "level": "B1",
+    "category": "connecteurs",
+    "emoji": "➕",
+    "phonetic": "bɪsaɪdz"
+  },
+  {
+    "id": "w049",
+    "word": "apart",
+    "translation": "à part / séparé",
+    "level": "B1",
+    "category": "connecteurs",
+    "emoji": "🔀",
+    "phonetic": "əpɑːrt"
+  },
+  {
+    "id": "w050",
+    "word": "elsewhere",
+    "translation": "ailleurs",
+    "level": "C1",
+    "category": "connecteurs",
+    "emoji": "🗺️",
+    "phonetic": "ɛlswɛr"
+  },
+  {
+    "id": "w051",
+    "word": "grab",
+    "translation": "attraper / saisir",
+    "level": "A2",
+    "category": "verbes",
+    "emoji": "🤚",
+    "phonetic": "ɡræb"
+  },
+  {
+    "id": "w052",
+    "word": "figure out",
+    "translation": "comprendre / trouver",
+    "level": "A2",
+    "category": "verbes",
+    "emoji": "💡",
+    "phonetic": "fɪɡjər aʊt"
+  },
+  {
+    "id": "w053",
+    "word": "deal with",
+    "translation": "gérer / s'occuper de",
+    "level": "B1",
+    "category": "verbes",
+    "emoji": "🤝",
+    "phonetic": "diːl wɪð"
+  },
+  {
+    "id": "w054",
+    "word": "bring up",
+    "translation": "mentionner / soulever",
+    "level": "B1",
+    "category": "verbes",
+    "emoji": "📢",
+    "phonetic": "brɪŋ ʌp"
+  },
+  {
+    "id": "w055",
+    "word": "come across",
+    "translation": "tomber sur / donner l'impression",
+    "level": "B1",
+    "category": "verbes",
+    "emoji": "🎲",
+    "phonetic": "kʌm əkrɒs"
+  },
+  {
+    "id": "w056",
+    "word": "run into",
+    "translation": "tomber sur / rencontrer par hasard",
+    "level": "B1",
+    "category": "verbes",
+    "emoji": "💥",
+    "phonetic": "rʌn ɪntə"
+  },
+  {
+    "id": "w057",
+    "word": "turn out",
+    "translation": "s'avérer / finalement",
+    "level": "B1",
+    "category": "verbes",
+    "emoji": "🔮",
+    "phonetic": "tɜːrn aʊt"
+  },
+  {
+    "id": "w058",
+    "word": "end up",
+    "translation": "finir par / se retrouver",
+    "level": "B1",
+    "category": "verbes",
+    "emoji": "🏁",
+    "phonetic": "ɛnd ʌp"
+  },
+  {
+    "id": "w059",
+    "word": "hang on",
+    "translation": "attendre / tenir",
+    "level": "A2",
+    "category": "verbes",
+    "emoji": "✋",
+    "phonetic": "hæŋ ɒn"
+  },
+  {
+    "id": "w060",
+    "word": "sort out",
+    "translation": "régler / arranger",
+    "level": "B1",
+    "category": "verbes",
+    "emoji": "🔧",
+    "phonetic": "sɔːrt aʊt"
+  },
+  {
+    "id": "w061",
+    "word": "pick up",
+    "translation": "ramasser / apprendre / venir chercher",
+    "level": "A2",
+    "category": "verbes",
+    "emoji": "📚",
+    "phonetic": "pɪk ʌp"
+  },
+  {
+    "id": "w062",
+    "word": "go ahead",
+    "translation": "aller de l'avant / vas-y",
+    "level": "A2",
+    "category": "verbes",
+    "emoji": "▶️",
+    "phonetic": "ɡoʊ əhɛd"
+  },
+  {
+    "id": "w063",
+    "word": "make up",
+    "translation": "inventer / se réconcilier",
+    "level": "B1",
+    "category": "verbes",
+    "emoji": "🎭",
+    "phonetic": "meɪk ʌp"
+  },
+  {
+    "id": "w064",
+    "word": "pull off",
+    "translation": "réussir malgré tout",
+    "level": "B2",
+    "category": "verbes",
+    "emoji": "🏆",
+    "phonetic": "pʊl ɒf"
+  },
+  {
+    "id": "w065",
+    "word": "show up",
+    "translation": "se pointer / apparaître",
+    "level": "B1",
+    "category": "verbes",
+    "emoji": "👋",
+    "phonetic": "ʃoʊ ʌp"
+  },
+  {
+    "id": "w066",
+    "word": "give up",
+    "translation": "abandonner / renoncer",
+    "level": "A2",
+    "category": "verbes",
+    "emoji": "🏳️",
+    "phonetic": "ɡɪv ʌp"
+  },
+  {
+    "id": "w067",
+    "word": "carry on",
+    "translation": "continuer / poursuivre",
+    "level": "A2",
+    "category": "verbes",
+    "emoji": "▶️",
+    "phonetic": "kæri ɒn"
+  },
+  {
+    "id": "w068",
+    "word": "hold on",
+    "translation": "attendre / tenir bon",
+    "level": "A2",
+    "category": "verbes",
+    "emoji": "✋",
+    "phonetic": "hoʊld ɒn"
+  },
+  {
+    "id": "w069",
+    "word": "point out",
+    "translation": "signaler / faire remarquer",
+    "level": "B1",
+    "category": "verbes",
+    "emoji": "👉",
+    "phonetic": "pɔɪnt aʊt"
+  },
+  {
+    "id": "w070",
+    "word": "set up",
+    "translation": "mettre en place / installer",
+    "level": "A2",
+    "category": "verbes",
+    "emoji": "⚙️",
+    "phonetic": "sɛt ʌp"
+  },
+  {
+    "id": "w071",
+    "word": "take over",
+    "translation": "prendre le contrôle / remplacer",
+    "level": "B1",
+    "category": "verbes",
+    "emoji": "👑",
+    "phonetic": "teɪk oʊvər"
+  },
+  {
+    "id": "w072",
+    "word": "turn down",
+    "translation": "refuser / baisser (le volume)",
+    "level": "B1",
+    "category": "verbes",
+    "emoji": "👎",
+    "phonetic": "tɜːrn daʊn"
+  },
+  {
+    "id": "w073",
+    "word": "wear out",
+    "translation": "user / épuiser",
+    "level": "B1",
+    "category": "verbes",
+    "emoji": "😫",
+    "phonetic": "wɛr aʊt"
+  },
+  {
+    "id": "w074",
+    "word": "work out",
+    "translation": "s'entraîner / comprendre / fonctionner",
+    "level": "A2",
+    "category": "verbes",
+    "emoji": "💪",
+    "phonetic": "wɜːrk aʊt"
+  },
+  {
+    "id": "w075",
+    "word": "catch up",
+    "translation": "rattraper son retard / se mettre à jour",
+    "level": "B1",
+    "category": "verbes",
+    "emoji": "🏃",
+    "phonetic": "kætʃ ʌp"
+  },
+  {
+    "id": "w076",
+    "word": "keep up",
+    "translation": "suivre le rythme / maintenir",
+    "level": "B1",
+    "category": "verbes",
+    "emoji": "📈",
+    "phonetic": "kiːp ʌp"
+  },
+  {
+    "id": "w077",
+    "word": "move on",
+    "translation": "passer à autre chose / tourner la page",
+    "level": "B1",
+    "category": "verbes",
+    "emoji": "➡️",
+    "phonetic": "muːv ɒn"
+  },
+  {
+    "id": "w078",
+    "word": "afford",
+    "translation": "se permettre (financièrement)",
+    "level": "A2",
+    "category": "verbes",
+    "emoji": "💰",
+    "phonetic": "əfɔːrd"
+  },
+  {
+    "id": "w079",
+    "word": "admit",
+    "translation": "admettre / reconnaître",
+    "level": "A2",
+    "category": "verbes",
+    "emoji": "🙋",
+    "phonetic": "ədmɪt"
+  },
+  {
+    "id": "w080",
+    "word": "deny",
+    "translation": "nier / refuser",
+    "level": "B1",
+    "category": "verbes",
+    "emoji": "🙅",
+    "phonetic": "dɪnaɪ"
+  },
+  {
+    "id": "w081",
+    "word": "assume",
+    "translation": "supposer / présumer",
+    "level": "B1",
+    "category": "verbes",
+    "emoji": "🤔",
+    "phonetic": "əsjuːm"
+  },
+  {
+    "id": "w082",
+    "word": "blame",
+    "translation": "blâmer / reprocher",
+    "level": "A2",
+    "category": "verbes",
+    "emoji": "👆",
+    "phonetic": "bleɪm"
+  },
+  {
+    "id": "w083",
+    "word": "trust",
+    "translation": "faire confiance / avoir confiance",
+    "level": "A2",
+    "category": "verbes",
+    "emoji": "🤝",
+    "phonetic": "trʌst"
+  },
+  {
+    "id": "w084",
+    "word": "warn",
+    "translation": "avertir / prévenir",
+    "level": "B1",
+    "category": "verbes",
+    "emoji": "⚠️",
+    "phonetic": "wɔːrn"
+  },
+  {
+    "id": "w085",
+    "word": "encourage",
+    "translation": "encourager / inciter",
+    "level": "A2",
+    "category": "verbes",
+    "emoji": "👏",
+    "phonetic": "ɪnkʌrɪdʒ"
+  },
+  {
+    "id": "w086",
+    "word": "remind",
+    "translation": "rappeler / faire penser à",
+    "level": "A2",
+    "category": "verbes",
+    "emoji": "🔔",
+    "phonetic": "rɪmaɪnd"
+  },
+  {
+    "id": "w087",
+    "word": "suggest",
+    "translation": "suggérer / proposer",
+    "level": "A2",
+    "category": "verbes",
+    "emoji": "💬",
+    "phonetic": "sədʒɛst"
+  },
+  {
+    "id": "w088",
+    "word": "realize",
+    "translation": "réaliser / se rendre compte",
+    "level": "A2",
+    "category": "verbes",
+    "emoji": "💡",
+    "phonetic": "riːəlaɪz"
+  },
+  {
+    "id": "w089",
+    "word": "notice",
+    "translation": "remarquer / s'apercevoir de",
+    "level": "A2",
+    "category": "verbes",
+    "emoji": "👀",
+    "phonetic": "noʊtɪs"
+  },
+  {
+    "id": "w090",
+    "word": "pretend",
+    "translation": "faire semblant / prétendre",
+    "level": "B1",
+    "category": "verbes",
+    "emoji": "🎭",
+    "phonetic": "prɪtɛnd"
+  },
+  {
+    "id": "w091",
+    "word": "reckon",
+    "translation": "penser / estimer",
+    "level": "B1",
+    "category": "verbes",
+    "emoji": "🤔",
+    "phonetic": "rɛkən"
+  },
+  {
+    "id": "w092",
+    "word": "manage",
+    "translation": "arriver à / réussir à gérer",
+    "level": "A2",
+    "category": "verbes",
+    "emoji": "✅",
+    "phonetic": "mænɪdʒ"
+  },
+  {
+    "id": "w093",
+    "word": "bother",
+    "translation": "déranger / se donner la peine",
+    "level": "B1",
+    "category": "verbes",
+    "emoji": "😤",
+    "phonetic": "bɒðər"
+  },
+  {
+    "id": "w094",
+    "word": "matter",
+    "translation": "avoir de l'importance / compter",
+    "level": "A2",
+    "category": "verbes",
+    "emoji": "❤️",
+    "phonetic": "mætər"
+  },
+  {
+    "id": "w095",
+    "word": "wonder",
+    "translation": "se demander / s'émerveiller",
+    "level": "A2",
+    "category": "verbes",
+    "emoji": "🤔",
+    "phonetic": "wʌndər"
+  },
+  {
+    "id": "w096",
+    "word": "tend to",
+    "translation": "avoir tendance à",
+    "level": "B1",
+    "category": "verbes",
+    "emoji": "📊",
+    "phonetic": "tɛnd tuː"
+  },
+  {
+    "id": "w097",
+    "word": "get rid of",
+    "translation": "se débarrasser de",
+    "level": "B1",
+    "category": "verbes",
+    "emoji": "🗑️",
+    "phonetic": "ɡɛt rɪd ɒv"
+  },
+  {
+    "id": "w098",
+    "word": "run out of",
+    "translation": "manquer de / être à court de",
+    "level": "B1",
+    "category": "verbes",
+    "emoji": "📉",
+    "phonetic": "rʌn aʊt ɒv"
+  },
+  {
+    "id": "w099",
+    "word": "look forward to",
+    "translation": "avoir hâte de",
+    "level": "B1",
+    "category": "verbes",
+    "emoji": "😊",
+    "phonetic": "lʊk fɔːrwərd tuː"
+  },
+  {
+    "id": "w100",
+    "word": "look up",
+    "translation": "chercher (un mot) / regarder vers le haut",
+    "level": "A2",
+    "category": "verbes",
+    "emoji": "🔍",
+    "phonetic": "lʊk ʌp"
+  },
+  {
+    "id": "w101",
+    "word": "eager",
+    "translation": "impatient / enthousiaste",
+    "level": "B1",
+    "category": "émotions",
+    "emoji": "🤩",
+    "phonetic": "iːɡər"
+  },
+  {
+    "id": "w102",
+    "word": "reluctant",
+    "translation": "réticent / peu disposé",
+    "level": "C1",
+    "category": "émotions",
+    "emoji": "😬",
+    "phonetic": "rɪlʌktənt"
+  },
+  {
+    "id": "w103",
+    "word": "stubborn",
+    "translation": "têtu / obstiné",
+    "level": "B1",
+    "category": "descriptions",
+    "emoji": "🐂",
+    "phonetic": "stʌbərn"
+  },
+  {
+    "id": "w104",
+    "word": "awkward",
+    "translation": "gêné / maladroit",
+    "level": "B1",
+    "category": "émotions",
+    "emoji": "😬",
+    "phonetic": "ɔːkwərd"
+  },
+  {
+    "id": "w105",
+    "word": "exhausted",
+    "translation": "épuisé / à bout",
+    "level": "A2",
+    "category": "émotions",
+    "emoji": "😴",
+    "phonetic": "ɪɡzɔːstɪd"
+  },
+  {
+    "id": "w106",
+    "word": "relieved",
+    "translation": "soulagé",
+    "level": "B1",
+    "category": "émotions",
+    "emoji": "😌",
+    "phonetic": "rɪliːvd"
+  },
+  {
+    "id": "w107",
+    "word": "frustrated",
+    "translation": "frustré",
+    "level": "B1",
+    "category": "émotions",
+    "emoji": "😤",
+    "phonetic": "frʌstreɪtɪd"
+  },
+  {
+    "id": "w108",
+    "word": "overwhelmed",
+    "translation": "dépassé / submergé",
+    "level": "B2",
+    "category": "émotions",
+    "emoji": "😵",
+    "phonetic": "oʊvərwɛlmd"
+  },
+  {
+    "id": "w109",
+    "word": "gentle",
+    "translation": "doux / délicat",
+    "level": "B1",
+    "category": "descriptions",
+    "emoji": "🕊️",
+    "phonetic": "dʒɛntl"
+  },
+  {
+    "id": "w110",
+    "word": "harsh",
+    "translation": "dur / sévère",
+    "level": "B2",
+    "category": "descriptions",
+    "emoji": "🪨",
+    "phonetic": "hɑːrʃ"
+  },
+  {
+    "id": "w111",
+    "word": "blunt",
+    "translation": "direct / brusque",
+    "level": "B2",
+    "category": "descriptions",
+    "emoji": "🗣️",
+    "phonetic": "blʌnt"
+  },
+  {
+    "id": "w112",
+    "word": "vague",
+    "translation": "vague / flou",
+    "level": "B1",
+    "category": "descriptions",
+    "emoji": "🌫️",
+    "phonetic": "veɪɡ"
+  },
+  {
+    "id": "w113",
+    "word": "subtle",
+    "translation": "subtil / discret",
+    "level": "C1",
+    "category": "descriptions",
+    "emoji": "🎭",
+    "phonetic": "sʌtl"
+  },
+  {
+    "id": "w114",
+    "word": "odd",
+    "translation": "bizarre / étrange",
+    "level": "A2",
+    "category": "descriptions",
+    "emoji": "🤨",
+    "phonetic": "ɒd"
+  },
+  {
+    "id": "w115",
+    "word": "random",
+    "translation": "aléatoire / sans raison",
+    "level": "A2",
+    "category": "descriptions",
+    "emoji": "🎲",
+    "phonetic": "rændəm"
+  },
+  {
+    "id": "w116",
+    "word": "typical",
+    "translation": "typique / habituel",
+    "level": "A2",
+    "category": "descriptions",
+    "emoji": "📌",
+    "phonetic": "tɪpɪkl"
+  },
+  {
+    "id": "w117",
+    "word": "proper",
+    "translation": "correct / vrai / convenable",
+    "level": "B1",
+    "category": "descriptions",
+    "emoji": "✔️",
+    "phonetic": "prɒpər"
+  },
+  {
+    "id": "w118",
+    "word": "decent",
+    "translation": "correct / honnête",
+    "level": "B1",
+    "category": "descriptions",
+    "emoji": "👍",
+    "phonetic": "diːsənt"
+  },
+  {
+    "id": "w119",
+    "word": "rough",
+    "translation": "difficile / approximatif",
+    "level": "B1",
+    "category": "descriptions",
+    "emoji": "⛰️",
+    "phonetic": "rʌf"
+  },
+  {
+    "id": "w120",
+    "word": "smooth",
+    "translation": "fluide / sans accroc",
+    "level": "B1",
+    "category": "descriptions",
+    "emoji": "🌊",
+    "phonetic": "smuːð"
+  },
+  {
+    "id": "w121",
+    "word": "strict",
+    "translation": "strict / sévère",
+    "level": "A2",
+    "category": "descriptions",
+    "emoji": "📏",
+    "phonetic": "strɪkt"
+  },
+  {
+    "id": "w122",
+    "word": "worth",
+    "translation": "qui vaut la peine / valeur de",
+    "level": "B1",
+    "category": "descriptions",
+    "emoji": "💎",
+    "phonetic": "wɜːrθ"
+  },
+  {
+    "id": "w123",
+    "word": "likely",
+    "translation": "probable / susceptible de",
+    "level": "B1",
+    "category": "descriptions",
+    "emoji": "🎯",
+    "phonetic": "laɪkli"
+  },
+  {
+    "id": "w124",
+    "word": "upset",
+    "translation": "contrarié / bouleversé",
+    "level": "A2",
+    "category": "émotions",
+    "emoji": "😢",
+    "phonetic": "ʌpsɛt"
+  },
+  {
+    "id": "w125",
+    "word": "concerned",
+    "translation": "inquiet / concerné",
+    "level": "B1",
+    "category": "émotions",
+    "emoji": "😟",
+    "phonetic": "kənsɜːrnd"
+  },
+  {
+    "id": "w126",
+    "word": "annoyed",
+    "translation": "agacé / irrité",
+    "level": "B1",
+    "category": "émotions",
+    "emoji": "😠",
+    "phonetic": "ənɔɪd"
+  },
+  {
+    "id": "w127",
+    "word": "hesitant",
+    "translation": "hésitant / pas sûr",
+    "level": "B2",
+    "category": "émotions",
+    "emoji": "😕",
+    "phonetic": "hɛzɪtənt"
+  },
+  {
+    "id": "w128",
+    "word": "determined",
+    "translation": "déterminé / résolu",
+    "level": "B1",
+    "category": "émotions",
+    "emoji": "💪",
+    "phonetic": "dɪtɜːrmɪnd"
+  },
+  {
+    "id": "w129",
+    "word": "brave",
+    "translation": "courageux / brave",
+    "level": "A2",
+    "category": "descriptions",
+    "emoji": "🦁",
+    "phonetic": "breɪv"
+  },
+  {
+    "id": "w130",
+    "word": "sharp",
+    "translation": "vif / intelligent / tranchant",
+    "level": "B1",
+    "category": "descriptions",
+    "emoji": "🔪",
+    "phonetic": "ʃɑːrp"
+  },
+  {
+    "id": "w131",
+    "word": "tough",
+    "translation": "dur / résistant / difficile",
+    "level": "B1",
+    "category": "descriptions",
+    "emoji": "💪",
+    "phonetic": "tʌf"
+  },
+  {
+    "id": "w132",
+    "word": "fancy",
+    "translation": "chic / avoir envie de",
+    "level": "B1",
+    "category": "descriptions",
+    "emoji": "✨",
+    "phonetic": "fænsi"
+  },
+  {
+    "id": "w133",
+    "word": "huge",
+    "translation": "énorme / immense",
+    "level": "A2",
+    "category": "quantité",
+    "emoji": "🐘",
+    "phonetic": "hjuːdʒ"
+  },
+  {
+    "id": "w134",
+    "word": "tiny",
+    "translation": "minuscule / tout petit",
+    "level": "A2",
+    "category": "quantité",
+    "emoji": "🐜",
+    "phonetic": "taɪni"
+  },
+  {
+    "id": "w135",
+    "word": "spare",
+    "translation": "de rechange / économiser",
+    "level": "B1",
+    "category": "descriptions",
+    "emoji": "🔧",
+    "phonetic": "spɛr"
+  },
+  {
+    "id": "w136",
+    "word": "keen",
+    "translation": "passionné de / enthousiaste",
+    "level": "B1",
+    "category": "émotions",
+    "emoji": "🔥",
+    "phonetic": "kiːn"
+  },
+  {
+    "id": "w137",
+    "word": "proud",
+    "translation": "fier",
+    "level": "A2",
+    "category": "émotions",
+    "emoji": "🦁",
+    "phonetic": "praʊd"
+  },
+  {
+    "id": "w138",
+    "word": "ashamed",
+    "translation": "honteux / qui a honte",
+    "level": "B1",
+    "category": "émotions",
+    "emoji": "😳",
+    "phonetic": "əʃeɪmd"
+  },
+  {
+    "id": "w139",
+    "word": "pleased",
+    "translation": "satisfait / content",
+    "level": "B1",
+    "category": "émotions",
+    "emoji": "😊",
+    "phonetic": "pliːzd"
+  },
+  {
+    "id": "w140",
+    "word": "grateful",
+    "translation": "reconnaissant",
+    "level": "B1",
+    "category": "émotions",
+    "emoji": "🙏",
+    "phonetic": "ɡreɪtfl"
+  },
+  {
+    "id": "w141",
+    "word": "regret",
+    "translation": "regretter / le regret",
+    "level": "B1",
+    "category": "émotions",
+    "emoji": "😔",
+    "phonetic": "rɪɡrɛt"
+  },
+  {
+    "id": "w142",
+    "word": "disappointed",
+    "translation": "déçu",
+    "level": "A2",
+    "category": "émotions",
+    "emoji": "😞",
+    "phonetic": "dɪsəpɔɪntɪd"
+  },
+  {
+    "id": "w143",
+    "word": "confused",
+    "translation": "confus / perdu",
+    "level": "A2",
+    "category": "émotions",
+    "emoji": "😕",
+    "phonetic": "kənfjuːzd"
+  },
+  {
+    "id": "w144",
+    "word": "curious",
+    "translation": "curieux",
+    "level": "A2",
+    "category": "émotions",
+    "emoji": "🔍",
+    "phonetic": "kjʊərɪəs"
+  },
+  {
+    "id": "w145",
+    "word": "flexible",
+    "translation": "flexible / souple",
+    "level": "B1",
+    "category": "descriptions",
+    "emoji": "🤸",
+    "phonetic": "flɛksɪbl"
+  },
+  {
+    "id": "w146",
+    "word": "obvious",
+    "translation": "évident / manifeste",
+    "level": "A2",
+    "category": "descriptions",
+    "emoji": "💡",
+    "phonetic": "ɒbvɪəs"
+  },
+  {
+    "id": "w147",
+    "word": "clever",
+    "translation": "intelligent / malin",
+    "level": "A2",
+    "category": "descriptions",
+    "emoji": "🧠",
+    "phonetic": "klɛvər"
+  },
+  {
+    "id": "w148",
+    "word": "weird",
+    "translation": "bizarre / étrange",
+    "level": "A2",
+    "category": "descriptions",
+    "emoji": "👽",
+    "phonetic": "wɪrd"
+  },
+  {
+    "id": "w149",
+    "word": "lazy",
+    "translation": "paresseux / fainéant",
+    "level": "A1",
+    "category": "descriptions",
+    "emoji": "🦥",
+    "phonetic": "leɪzi"
+  },
+  {
+    "id": "w150",
+    "word": "flat",
+    "translation": "plat / ennuyeux / sans entrain",
+    "level": "A2",
+    "category": "descriptions",
+    "emoji": "📋",
+    "phonetic": "flæt"
+  }
+]

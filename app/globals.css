@@ -1,26 +1,103 @@
 @import "tailwindcss";
 
+@theme {
+  /* Palette WordQuest */
+  --color-primary: #6C63FF;
+  --color-secondary: #FF6B6B;
+  --color-accent: #FFD93D;
+  --color-success: #6BCB77;
+  --color-app-bg: #F8F7FF;
+
+  /* Fonts via CSS variables injectées par Next.js */
+  --font-display: var(--font-fredoka);
+  --font-body: var(--font-nunito);
+}
+
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --background: #F8F7FF;
+  --foreground: #2D2D2D;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-nunito), "Nunito", ui-rounded, sans-serif;
 }
+
+/* ── Flip Card 3D ─────────────────────────────────────────────── */
+.card-flip-container {
+  perspective: 1000px;
+}
+
+.card-flip {
+  position: relative;
+  transform-style: preserve-3d;
+  transition: transform 0.55s cubic-bezier(0.4, 0, 0.2, 1);
+  height: 100%;
+}
+
+.card-flip.flipped {
+  transform: rotateY(180deg);
+}
+
+.card-face {
+  position: absolute;
+  inset: 0;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+.card-back {
+  transform: rotateY(180deg);
+}
+
+/* ── Animations ──────────────────────────────────────────────── */
+@keyframes bounce-in {
+  0%   { transform: scale(0.8); opacity: 0; }
+  60%  { transform: scale(1.1); }
+  100% { transform: scale(1);   opacity: 1; }
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0);  }
+  20%       { transform: translateX(-8px); }
+  40%       { transform: translateX(8px);  }
+  60%       { transform: translateX(-6px); }
+  80%       { transform: translateX(6px);  }
+}
+
+@keyframes confetti-piece {
+  0%   { transform: translateY(0) rotate(0deg);    opacity: 1;   }
+  100% { transform: translateY(80vh) rotate(720deg); opacity: 0; }
+}
+
+@keyframes slide-up {
+  from { transform: translateY(20px); opacity: 0; }
+  to   { transform: translateY(0);    opacity: 1; }
+}
+
+.animate-bounce-in { animation: bounce-in 0.4s ease-out both; }
+.animate-shake     { animation: shake 0.45s ease both; }
+.animate-slide-up  { animation: slide-up 0.35s ease-out both; }
+
+/* Confetti — n confetti générés via data-attr */
+.confetti-piece {
+  position: fixed;
+  top: -10px;
+  width: 10px;
+  height: 10px;
+  border-radius: 2px;
+  animation: confetti-piece 1.8s ease-in forwards;
+}
+
+/* ── Boutons utilitaires ─────────────────────────────────────── */
+.btn-answer {
+  transition: transform 0.15s ease, box-shadow 0.15s ease, background-color 0.15s ease;
+}
+.btn-answer:hover  { transform: translateY(-2px); box-shadow: 0 4px 12px rgb(0 0 0 / 0.12); }
+.btn-answer:active { transform: translateY(0);   box-shadow: none; }
+
+/* ── Scrollbar fine ──────────────────────────────────────────── */
+::-webkit-scrollbar        { width: 6px; }
+::-webkit-scrollbar-track  { background: transparent; }
+::-webkit-scrollbar-thumb  { background: #6C63FF55; border-radius: 9999px; }

@@ -1,65 +1,186 @@
-import Image from "next/image";
+"use client";
 
-export default function Home() {
+import { useState, useEffect } from "react";
+import Link from "next/link";
+import type { UserProfile } from "@/types";
+import { getProgress, getMasteredCount, updateStreak, setSessionProfile } from "@/lib/progress";
+import { WORDS } from "@/lib/words";
+
+const MODES = [
+  { href: "/flashcards", emoji: "🃏", title: "Flashcards",           desc: "Apprends un mot à la fois",      color: "from-primary/20 to-primary/5",   border: "border-primary/30" },
+  { href: "/quiz",       emoji: "🎯", title: "Quiz",                 desc: "4 choix, trouve la bonne réponse", color: "from-secondary/20 to-secondary/5", border: "border-secondary/30" },
+  { href: "/fill",       emoji: "✏️", title: "Complète la phrase",   desc: "Trouve le mot manquant",          color: "from-accent/30 to-accent/10",     border: "border-accent/40"   },
+] as const;
+
+const LEVELS = [
+  { value: "1" as const, label: "Niveau 1", emoji: "⭐", color: "bg-green-100 text-green-700 border-green-300" },
+  { value: "2" as const, label: "Niveau 2", emoji: "⭐⭐", color: "bg-yellow-100 text-yellow-700 border-yellow-300" },
+  { value: "3" as const, label: "Niveau 3", emoji: "⭐⭐⭐", color: "bg-purple-100 text-purple-700 border-purple-300" },
+  { value: "all" as const, label: "Tout",   emoji: "🌈", color: "bg-primary/10 text-primary border-primary/30" },
+] as const;
+
+export default function HomePage() {
+  const [profile, setProfile] = useState<UserProfile | null>(null);
+  const [selectedLevel, setSelectedLevel] = useState<"1" | "2" | "3" | "all">("all");
+  const [mastered, setMastered] = useState(0);
+  const [streak, setStreak] = useState(0);
+
+  useEffect(() => {
+    const stored = sessionStorage.getItem("vocabapp_profile") as UserProfile | null;
+    if (stored) {
+      setProfile(stored);
+      setMastered(getMasteredCount(stored));
+      setStreak(updateStreak(stored));
+    }
+  }, []);
+
+  function handleSelectProfile(p: UserProfile) {
+    setProfile(p);
+    setSessionProfile(p);
+    sessionStorage.setItem("vocabapp_level", selectedLevel);
+    setMastered(getMasteredCount(p));
+    setStreak(updateStreak(p));
+  }
+
+  function handleLevelChange(level: "1" | "2" | "3" | "all") {
+    setSelectedLevel(level);
+    sessionStorage.setItem("vocabapp_level", level);
+  }
+
+  const progress = profile ? getProgress(profile) : null;
+  const lastSession = progress?.sessions.at(-1);
+
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
+    <main className="min-h-screen bg-app-bg px-4 py-8 max-w-lg mx-auto">
+      {/* Header */}
+      <header className="text-center mb-8 animate-slide-up">
+        <h1 className="font-display text-5xl font-bold text-primary mb-1">WordQuest 🚀</h1>
+        <p className="text-gray-500 text-lg">Apprends l&apos;anglais avec papa !</p>
+      </header>
+
+      {/* Sélecteur de profil */}
+      <section className="mb-8">
+        <p className="text-center text-sm font-semibold text-gray-500 uppercase tracking-wide mb-3">
+          Qui joue ?
+        </p>
+        <div className="flex gap-4 justify-center">
+          {(["papa", "Eya"] as UserProfile[]).map((p) => (
+            <button
+              key={p}
+              onClick={() => handleSelectProfile(p)}
+              className={`
+                flex-1 py-5 rounded-2xl border-2 font-display text-2xl font-bold
+                transition-all duration-200 ease-out
+                hover:scale-105 hover:shadow-md active:scale-95
+                ${profile === p
+                  ? "bg-primary text-white border-primary shadow-lg scale-105"
+                  : "bg-white text-gray-700 border-gray-200 hover:border-primary/40"
+                }
+              `}
             >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
+              {p === "papa" ? "👨 Papa" : "👧 Eya"}
+            </button>
+          ))}
+        </div>
+      </section>
+
+      {/* Stats globales */}
+      {profile && (
+        <section className="mb-8 animate-bounce-in">
+          <div className="bg-white rounded-2xl p-5 shadow-sm border border-gray-100 flex items-center justify-around">
+            <div className="text-center">
+              <p className="font-display text-3xl font-bold text-primary">{mastered}</p>
+              <p className="text-xs text-gray-500 mt-0.5">mots maîtrisés</p>
+              <p className="text-xs text-gray-400">sur {WORDS.length}</p>
+            </div>
+            <div className="w-px h-12 bg-gray-200" />
+            <div className="text-center">
+              <p className="font-display text-3xl font-bold text-secondary">
+                {streak} 🔥
+              </p>
+              <p className="text-xs text-gray-500 mt-0.5">jours de suite</p>
+            </div>
+            <div className="w-px h-12 bg-gray-200" />
+            <div className="text-center">
+              <p className="font-display text-3xl font-bold text-success">
+                {lastSession ? `${lastSession.score}/${lastSession.wordsReviewed.length}` : "—"}
+              </p>
+              <p className="text-xs text-gray-500 mt-0.5">dernier score</p>
+            </div>
+          </div>
+        </section>
+      )}
+
+      {/* Sélecteur de niveau */}
+      <section className="mb-6">
+        <p className="text-sm font-semibold text-gray-500 uppercase tracking-wide mb-3">
+          Niveau
+        </p>
+        <div className="flex gap-2 flex-wrap">
+          {LEVELS.map((lvl) => (
+            <button
+              key={lvl.value}
+              onClick={() => handleLevelChange(lvl.value)}
+              className={`
+                flex items-center gap-1.5 px-4 py-2 rounded-full border-2 font-semibold text-sm
+                transition-all duration-150
+                ${selectedLevel === lvl.value
+                  ? lvl.color + " shadow-sm scale-105"
+                  : "bg-white text-gray-500 border-gray-200 hover:border-gray-300"
+                }
+              `}
             >
-              Learning
-            </a>{" "}
-            center.
+              <span>{lvl.emoji}</span>
+              {lvl.label}
+            </button>
+          ))}
+        </div>
+      </section>
+
+      {/* Cards de modes */}
+      <section>
+        <p className="text-sm font-semibold text-gray-500 uppercase tracking-wide mb-3">
+          Choisir un mode
+        </p>
+        <div className="flex flex-col gap-4">
+          {MODES.map((mode, i) => {
+            const href = profile
+              ? `${mode.href}?profile=${profile}&level=${selectedLevel}`
+              : mode.href;
+            return (
+              <Link
+                key={mode.href}
+                href={href}
+                onClick={() => {
+                  if (!profile) return;
+                  sessionStorage.setItem("vocabapp_level", selectedLevel);
+                }}
+                className={`
+                  flex items-center gap-5 p-5 rounded-2xl border-2 bg-gradient-to-r
+                  ${mode.color} ${mode.border}
+                  transition-all duration-200 ease-out
+                  hover:scale-[1.02] hover:shadow-md active:scale-100
+                  ${!profile ? "opacity-50 pointer-events-none" : ""}
+                `}
+                style={{ animationDelay: `${i * 80}ms` }}
+                aria-disabled={!profile}
+              >
+                <span className="text-5xl shrink-0">{mode.emoji}</span>
+                <div>
+                  <h3 className="font-display text-xl font-bold text-gray-800">{mode.title}</h3>
+                  <p className="text-gray-500 text-sm mt-0.5">{mode.desc}</p>
+                </div>
+                <span className="ml-auto text-gray-400 text-xl">→</span>
+              </Link>
+            );
+          })}
+        </div>
+        {!profile && (
+          <p className="text-center text-sm text-gray-400 mt-4 italic">
+            ← Sélectionne un profil pour commencer
           </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
-    </div>
+        )}
+      </section>
+    </main>
   );
 }

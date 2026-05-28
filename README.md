@@ -1,36 +1,70 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# WordQuest 🚀 — English Vocabulary App
 
-## Getting Started
+Application d'apprentissage du vocabulaire anglais pour père + fille 7-8 ans.
 
-First, run the development server:
+## Stack
+
+- Next.js 16 App Router + TypeScript strict
+- Tailwind CSS v4
+- Anthropic Claude API (`claude-sonnet-4-6`)
+- Web Speech API (prononciation native browser)
+- localStorage (pas de base de données)
+
+## Setup
 
 ```bash
+# 1. Installer les dépendances
+npm install
+
+# 2. Configurer les variables d'environnement
+cp .env.local.example .env.local
+# Édite .env.local et remplace "your_key_here" par ta clé Anthropic
+
+# 3. Lancer en développement
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+
+# 4. Build de production
+npm run build && npm run start
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Obtenir une clé Anthropic API
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+1. Crée un compte sur https://console.anthropic.com
+2. Va dans "API Keys" et génère une nouvelle clé
+3. Copie la clé dans `.env.local`
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Commandes disponibles
 
-## Learn More
+| Commande | Description |
+|----------|-------------|
+| `npm run dev` | Serveur de développement (http://localhost:3000) |
+| `npm run build` | Build de production |
+| `npm run start` | Serveur de production |
+| `npm run lint` | Vérification ESLint |
 
-To learn more about Next.js, take a look at the following resources:
+## Structure
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```
+vocab-app/
+├── app/
+│   ├── page.tsx          # Accueil — sélecteur profil + modes
+│   ├── flashcards/       # Mode révision avec flip card 3D
+│   ├── quiz/             # Mode QCM 4 choix
+│   ├── fill/             # Mode compléter la phrase (Claude)
+│   └── api/              # Routes API (generate-sentence, generate-quiz, generate-fill)
+├── components/           # WordCard, AudioButton, ProgressBar, etc.
+├── lib/
+│   ├── words.ts          # Dataset 150 mots (niveaux 1/2/3)
+│   ├── progress.ts       # Logique localStorage
+│   └── speech.ts         # Web Speech API wrapper
+└── types/index.ts        # Types TypeScript partagés
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Fonctionnalités
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- **3 modes** : Flashcards, Quiz QCM, Compléter la phrase
+- **150 mots** en 3 niveaux de difficulté
+- **Prononciation** : Web Speech API (accent en-US)
+- **IA** : Claude génère des phrases exemples contextuelles
+- **Progression** : localStorage namespaced par profil (`vocabapp_papa` / `vocabapp_Eya`)
+- **Streak** : compteur de jours consécutifs de pratique

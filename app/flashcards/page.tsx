@@ -1,0 +1,177 @@
+"use client";
+
+import { Suspense, useState, useEffect, useCallback } from "react";
+import { useSearchParams, useRouter } from "next/navigation";
+import type { VocabWord, UserProfile, GenerateSentenceResponse } from "@/types";
+import { getWordsToReview, markWord, addSession } from "@/lib/progress";
+import Navigation from "@/components/Navigation";
+import WordCard from "@/components/WordCard";
+import ProgressBar from "@/components/ProgressBar";
+
+const CONFETTI_COLORS = ["#6C63FF", "#FF6B6B", "#FFD93D", "#6BCB77", "#FF9F43"];
+const SESSION_SIZE = 10;
+
+function Confetti() {
+  const pieces = Array.from({ length: 30 }, (_, i) => ({
+    id: i,
+    left: `${Math.random() * 100}%`,
+    color: CONFETTI_COLORS[i % CONFETTI_COLORS.length],
+    delay: `${Math.random() * 1.2}s`,
+    size: `${6 + Math.random() * 8}px`,
+  }));
+  return (
+    <div className="pointer-events-none fixed inset-0 z-50 overflow-hidden">
+      {pieces.map((p) => (
+        <div
+          key={p.id}
+          className="confetti-piece"
+          style={{ left: p.left, background: p.color, animationDelay: p.delay, width: p.size, height: p.size }}
+        />
+      ))}
+    </div>
+  );
+}
+
+function FlashcardsContent() {
+  const searchParams = useSearchParams();
+  const router = useRouter();
+
+  const profileParam = searchParams.get("profile") as UserProfile | null;
+  const profile: UserProfile = profileParam ?? (typeof window !== "undefined" ? (sessionStorage.getItem("vocabapp_profile") as UserProfile) : "papa") ?? "papa";
+  const levelParam = searchParams.get("level") ?? (typeof window !== "undefined" ? sessionStorage.getItem("vocabapp_level") : "all") ?? "all";
+  const level = (levelParam === "1" ? 1 : levelParam === "2" ? 2 : levelParam === "3" ? 3 : "all") as 1 | 2 | 3 | "all";
+
+  const [words, setWords] = useState<VocabWord[]>([]);
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [score, setScore] = useState(0);
+  const [reviewedIds, setReviewedIds] = useState<string[]>([]);
+  const [sentence, setSentence] = useState<string | undefined>();
+  const [sentenceTranslation, setSentenceTranslation] = useState<string | undefined>();
+  const [loadingSentence, setLoadingSentence] = useState(false);
+  const [done, setDone] = useState(false);
+
+  useEffect(() => {
+    setWords(getWordsToReview(profile, level).slice(0, SESSION_SIZE));
+  }, [profile, level]);
+
+  const currentWord = words[currentIndex];
+
+  const fetchSentence = useCallback(
+    async (word: VocabWord) => {
+      setLoadingSentence(true);
+      setSentence(undefined);
+      setSentenceTranslation(undefined);
+      try {
+        const res = await fetch("/api/generate-sentence", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ word: word.word, level: word.level, userProfile: profile }),
+        });
+        const data = (await res.json()) as GenerateSentenceResponse;
+        setSentence(data.sentence);
+        setSentenceTranslation(data.translation);
+      } catch {
+        setSentence(`I love **${word.word}**!`);
+        setSentenceTranslation("J'adore ce mot !");
+      } finally {
+        setLoadingSentence(false);
+      }
+    },
+    [profile]
+  );
+
+  useEffect(() => {
+    if (currentWord) fetchSentence(currentWord);
+  }, [currentWord, fetchSentence]);
+
+  function advance(knew: boolean) {
+    if (!currentWord) return;
+    markWord(profile, currentWord.id, knew);
+    const newScore = knew ? score + 1 : score;
+    if (knew) setScore(newScore);
+    const newReviewed = [...reviewedIds, currentWord.id];
+    setReviewedIds(newReviewed);
+
+    if (currentIndex + 1 >= words.length) {
+      addSession(profile, { mode: "flashcard", score: newScore, wordsReviewed: newReviewed });
+      setDone(true);
+    } else {
+      setCurrentIndex((i) => i + 1);
+      setSentence(undefined);
+    }
+  }
+
+  function restart() {
+    setCurrentIndex(0);
+    setScore(0);
+    setReviewedIds([]);
+    setDone(false);
+    setSentence(undefined);
+    setWords(getWordsToReview(profile, level).slice(0, SESSION_SIZE));
+  }
+
+  if (done) {
+    const pct = words.length > 0 ? Math.round((score / words.length) * 100) : 0;
+    const perfect = pct === 100;
+    return (
+      <div className="flex flex-col items-center justify-center min-h-[70vh] gap-6 px-4 text-center">
+        {perfect && <Confetti />}
+        <span className="text-7xl animate-bounce-in">{perfect ? "🏆" : pct >= 70 ? "🌟" : "💪"}</span>
+        <h2 className="font-display text-4xl font-bold text-primary">
+          {perfect ? "Parfait !" : pct >= 70 ? "Bravo !" : "Continue !"}
+        </h2>
+        <p className="text-2xl font-bold text-gray-700">{score} / {words.length} mots connus</p>
+        {pct < 100 && (
+          <p className="text-gray-500 text-sm">Tu peux rejouer pour améliorer ton score !</p>
+        )}
+        <div className="flex gap-3 mt-2">
+          <button
+            onClick={restart}
+            className="px-6 py-3 bg-primary text-white rounded-2xl font-bold text-lg hover:opacity-90 transition-all hover:scale-105"
+          >
+            🔄 Rejouer
+          </button>
+          <button
+            onClick={() => router.push("/")}
+            className="px-6 py-3 bg-white border-2 border-gray-200 text-gray-700 rounded-2xl font-bold text-lg hover:border-primary/30 transition-all"
+          >
+            🏠 Accueil
+          </button>
+        </div>
+      </div>
+    );
+  }
+
+  if (!currentWord) {
+    return (
+      <div className="flex justify-center items-center min-h-[60vh]">
+        <span className="text-4xl animate-spin">⏳</span>
+      </div>
+    );
+  }
+
+  return (
+    <div className="px-4 py-6 max-w-lg mx-auto flex flex-col gap-6">
+      <ProgressBar current={currentIndex} total={words.length} label="Progression" />
+      <WordCard
+        word={currentWord}
+        onKnew={() => advance(true)}
+        onDidntKnow={() => advance(false)}
+        exampleSentence={sentence}
+        exampleTranslation={sentenceTranslation}
+        loadingSentence={loadingSentence}
+      />
+    </div>
+  );
+}
+
+export default function FlashcardsPage() {
+  return (
+    <>
+      <Navigation title="🃏 Flashcards" />
+      <Suspense fallback={<div className="flex justify-center items-center min-h-[60vh]"><span className="text-4xl">⏳</span></div>}>
+        <FlashcardsContent />
+      </Suspense>
+    </>
+  );
+}

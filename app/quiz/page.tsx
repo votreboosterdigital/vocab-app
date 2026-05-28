@@ -249,7 +249,6 @@ function QuizContent() {
                 `}
               >
                 <span className="block text-lg">{choice.translation}</span>
-                <span className="block text-xs font-normal text-current/70 mt-1">{choice.word}</span>
               </button>
             );
           })}

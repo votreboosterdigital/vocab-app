@@ -5,6 +5,24 @@ import Link from "next/link";
 import type { UserProfile, WordLevel } from "@/types";
 import { getProgress, getMasteredCount, updateStreak, setSessionProfile } from "@/lib/progress";
 import { WORDS } from "@/lib/words";
+import BritishMascot from "@/components/BritishMascot";
+
+function UnionJackMini({ size = 24 }: { size?: number }) {
+  const h = Math.round(size * 2 / 3);
+  return (
+    <svg viewBox="0 0 30 20" width={size} height={h} xmlns="http://www.w3.org/2000/svg" style={{ borderRadius: 2 }}>
+      <rect width="30" height="20" fill="#012169" />
+      <line x1="0" y1="0" x2="30" y2="20" stroke="white" strokeWidth="4" />
+      <line x1="30" y1="0" x2="0" y2="20" stroke="white" strokeWidth="4" />
+      <line x1="0" y1="0" x2="30" y2="20" stroke="#C8102E" strokeWidth="2.2" />
+      <line x1="30" y1="0" x2="0" y2="20" stroke="#C8102E" strokeWidth="2.2" />
+      <line x1="15" y1="0" x2="15" y2="20" stroke="white" strokeWidth="5.5" />
+      <line x1="0" y1="10" x2="30" y2="10" stroke="white" strokeWidth="5.5" />
+      <line x1="15" y1="0" x2="15" y2="20" stroke="#C8102E" strokeWidth="3" />
+      <line x1="0" y1="10" x2="30" y2="10" stroke="#C8102E" strokeWidth="3" />
+    </svg>
+  );
+}
 
 const PROFILE_STYLES: Record<UserProfile, { gradient: string; emoji: string; ring: string; dark?: boolean }> = {
   "papa":       { gradient: "from-green-500 to-emerald-600",  emoji: "👨", ring: "ring-green-400"  },
@@ -84,12 +102,44 @@ export default function HomePage() {
     <main className="min-h-screen bg-app-bg pb-10">
 
       {/* ── Hero header ─────────────────────────────────────────── */}
-      <div className="bg-gradient-to-br from-primary via-violet-600 to-purple-700 px-4 pt-12 pb-10 text-center relative overflow-hidden">
+      <div className="bg-gradient-to-br from-primary via-violet-600 to-purple-700 px-4 pt-8 pb-14 text-center relative overflow-hidden">
         <div className="absolute inset-0 opacity-10"
           style={{ backgroundImage: "radial-gradient(circle, white 1px, transparent 1px)", backgroundSize: "24px 24px" }} />
-        <div className="relative">
-          <div className="animate-float inline-block text-6xl mb-3">🚀</div>
-          <h1 className="font-display text-5xl font-bold text-white drop-shadow-md">WordQuest</h1>
+
+        {/* Drapeaux flottants décoratifs */}
+        <div className="absolute top-4 left-4 opacity-55 animate-float" style={{ animationDelay: "0.4s", animationDuration: "4s" }}>
+          <UnionJackMini size={28} />
+        </div>
+        <div className="absolute top-7 right-5 opacity-45 animate-float" style={{ animationDelay: "1.1s", animationDuration: "3.6s" }}>
+          <UnionJackMini size={22} />
+        </div>
+        <div className="absolute bottom-10 left-7 opacity-35 animate-float" style={{ animationDelay: "0.9s", animationDuration: "5s" }}>
+          <UnionJackMini size={18} />
+        </div>
+        <div className="absolute bottom-8 right-8 text-2xl opacity-50 animate-float" style={{ animationDelay: "0.6s", animationDuration: "4.4s" }}>👑</div>
+        <div className="absolute top-14 left-1/4 text-base opacity-30 animate-float" style={{ animationDelay: "1.6s", animationDuration: "3.8s" }}>⭐</div>
+        <div className="absolute top-5 right-1/4 text-base opacity-30 animate-float" style={{ animationDelay: "2s", animationDuration: "4.2s" }}>✨</div>
+
+        <div className="relative flex flex-col items-center">
+          {/* Mascot + bulle de dialogue */}
+          <div className="relative animate-float" style={{ animationDuration: "3.2s" }}>
+            {/* Bulle de dialogue */}
+            <div className="absolute -top-11 left-1/2 -translate-x-1/2 z-10 whitespace-nowrap">
+              <div className="bg-white rounded-2xl px-4 py-1.5 shadow-lg font-bold text-primary text-sm leading-none inline-flex items-center gap-1.5">
+                <span>Hello!</span>
+                <span className="inline-block animate-float" style={{ animationDuration: "1.8s" }}>👋</span>
+              </div>
+              {/* Triangle pointant vers le bas */}
+              <div className="absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-full
+                w-0 h-0
+                border-l-[8px] border-r-[8px] border-t-[9px]
+                border-l-transparent border-r-transparent border-t-white" />
+            </div>
+
+            <BritishMascot className="h-44 w-auto drop-shadow-[0_8px_24px_rgba(0,0,0,0.35)]" />
+          </div>
+
+          <h1 className="font-display text-5xl font-bold text-white drop-shadow-md mt-2">WordQuest</h1>
           <p className="text-violet-200 text-base font-semibold mt-1">
             Apprends l&apos;anglais en famille !
           </p>

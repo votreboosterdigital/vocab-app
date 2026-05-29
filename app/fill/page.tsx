@@ -3,13 +3,17 @@
 import { Suspense, useState, useEffect, useCallback } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import type { VocabWord, UserProfile, GenerateFillResponse, WordLevel } from "@/types";
-import { getWordsToReview, markWord, addSession } from "@/lib/progress";
+import { getWordsToReview, markWord, addSession, addXP, markModePlayed } from "@/lib/progress";
+import { checkAndUnlockBadges } from "@/lib/badges";
+import type { Badge } from "@/lib/badges";
+import { playSound, preloadVoices } from "@/lib/sound";
 import { getDistractors, VALID_LEVELS } from "@/lib/words";
 import Navigation from "@/components/Navigation";
 import ProgressBar from "@/components/ProgressBar";
 import ScoreDisplay from "@/components/ScoreDisplay";
 import AudioButton from "@/components/AudioButton";
 import LevelBadge from "@/components/LevelBadge";
+import BadgeUnlock from "@/components/BadgeUnlock";
 import Confetti from "@/components/Confetti";
 
 const SESSION_SIZE = 8;
@@ -54,6 +58,11 @@ function FillContent() {
   const [done, setDone] = useState(false);
   const [feedback, setFeedback] = useState<"correct" | "wrong" | null>(null);
   const [waitingNext, setWaitingNext] = useState(false);
+  const [newBadge, setNewBadge] = useState<Badge | null>(null);
+
+  useEffect(() => {
+    preloadVoices();
+  }, []);
 
   useEffect(() => {
     setWords(getWordsToReview(profile, level).slice(0, SESSION_SIZE));
@@ -113,6 +122,15 @@ function FillContent() {
     if (currentWord) fetchQuestion(currentWord);
   }, [currentWord, fetchQuestion]);
 
+  function finishSession(finalScore: number, reviewed: string[]) {
+    addSession(profile, { mode: "fill", score: finalScore, wordsReviewed: reviewed });
+    markModePlayed(profile, "fill");
+    playSound("session-complete");
+    const newlyUnlocked = checkAndUnlockBadges(profile);
+    if (newlyUnlocked.length > 0) setNewBadge(newlyUnlocked[0]);
+    setDone(true);
+  }
+
   function handleChoice(choice: string) {
     if (selected || !question) return;
     setSelected(choice);
@@ -121,15 +139,20 @@ function FillContent() {
     markWord(profile, question.word.id, correct);
 
     const newScore = correct ? score + 1 : score;
-    if (correct) setScore(newScore);
+    if (correct) {
+      setScore(newScore);
+      addXP(profile, 10);
+      playSound("correct");
+    } else {
+      playSound("wrong");
+    }
     const newReviewed = [...reviewedIds, question.word.id];
     setReviewedIds(newReviewed);
 
     if (correct) {
       setTimeout(() => {
         if (currentIndex + 1 >= words.length) {
-          addSession(profile, { mode: "fill", score: newScore, wordsReviewed: newReviewed });
-          setDone(true);
+          finishSession(newScore, newReviewed);
         } else {
           setCurrentIndex((i) => i + 1);
         }
@@ -142,8 +165,7 @@ function FillContent() {
   function handleNext() {
     setWaitingNext(false);
     if (currentIndex + 1 >= words.length) {
-      addSession(profile, { mode: "fill", score, wordsReviewed: reviewedIds });
-      setDone(true);
+      finishSession(score, reviewedIds);
     } else {
       setCurrentIndex((i) => i + 1);
     }
@@ -166,6 +188,7 @@ function FillContent() {
     const isPerfect = pct === 100;
     return (
       <div className="flex flex-col items-center gap-5 px-4 py-8 max-w-lg mx-auto text-center">
+        <BadgeUnlock badge={newBadge} onDismiss={() => setNewBadge(null)} />
         {isPerfect && <Confetti />}
 
         <span className="text-8xl animate-bounce-in block">
@@ -173,7 +196,7 @@ function FillContent() {
         </span>
 
         <div>
-          <h2 className="font-display text-4xl font-bold text-primary">
+          <h2 className="font-display text-4xl font-bold text-[#2B3A8C]">
             {isPerfect ? "Incroyable !" : pct >= 70 ? "Bien joué !" : "Continue !"}
           </h2>
           <p className="text-gray-500 mt-1">{score} bonne{score > 1 ? "s" : ""} réponse{score > 1 ? "s" : ""} sur {words.length}</p>
@@ -182,7 +205,7 @@ function FillContent() {
         <div className={`w-full py-5 rounded-2xl font-display text-5xl font-bold text-white shadow-lg ${
           isPerfect ? "bg-gradient-to-r from-amber-400 to-yellow-500"
           : pct >= 70 ? "bg-gradient-to-r from-emerald-400 to-green-500"
-          : "bg-gradient-to-r from-primary to-violet-600"
+          : "bg-gradient-to-r from-[#2B3A8C] to-[#1a2a6e]"
         }`}>
           {pct}%
         </div>

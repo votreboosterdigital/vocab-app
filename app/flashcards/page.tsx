@@ -4,11 +4,14 @@ import { Suspense, useState, useEffect, useCallback } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import type { VocabWord, UserProfile, GenerateSentenceResponse, WordLevel } from "@/types";
 import { VALID_LEVELS } from "@/lib/words";
-import { getWordsToReview, markWord, addSession } from "@/lib/progress";
+import { getWordsToReview, markWord, addSession, addXP, markModePlayed } from "@/lib/progress";
+import { checkAndUnlockBadges } from "@/lib/badges";
+import type { Badge } from "@/lib/badges";
+import { playSound, preloadVoices } from "@/lib/sound";
 import Navigation from "@/components/Navigation";
 import WordCard from "@/components/WordCard";
 import ProgressBar from "@/components/ProgressBar";
-
+import BadgeUnlock from "@/components/BadgeUnlock";
 import Confetti from "@/components/Confetti";
 
 const SESSION_SIZE = 10;
@@ -30,6 +33,11 @@ function FlashcardsContent() {
   const [sentenceTranslation, setSentenceTranslation] = useState<string | undefined>();
   const [loadingSentence, setLoadingSentence] = useState(false);
   const [done, setDone] = useState(false);
+  const [newBadge, setNewBadge] = useState<Badge | null>(null);
+
+  useEffect(() => {
+    preloadVoices();
+  }, []);
 
   useEffect(() => {
     setWords(getWordsToReview(profile, level).slice(0, SESSION_SIZE));
@@ -69,12 +77,22 @@ function FlashcardsContent() {
     if (!currentWord) return;
     markWord(profile, currentWord.id, knew);
     const newScore = knew ? score + 1 : score;
-    if (knew) setScore(newScore);
+    if (knew) {
+      setScore(newScore);
+      addXP(profile, 10);
+      playSound("correct");
+    } else {
+      playSound("wrong");
+    }
     const newReviewed = [...reviewedIds, currentWord.id];
     setReviewedIds(newReviewed);
 
     if (currentIndex + 1 >= words.length) {
       addSession(profile, { mode: "flashcard", score: newScore, wordsReviewed: newReviewed });
+      markModePlayed(profile, "flashcard");
+      playSound("session-complete");
+      const newlyUnlocked = checkAndUnlockBadges(profile);
+      if (newlyUnlocked.length > 0) setNewBadge(newlyUnlocked[0]);
       setDone(true);
     } else {
       setCurrentIndex((i) => i + 1);
@@ -96,9 +114,10 @@ function FlashcardsContent() {
     const perfect = pct === 100;
     return (
       <div className="flex flex-col items-center justify-center min-h-[70vh] gap-6 px-4 text-center">
+        <BadgeUnlock badge={newBadge} onDismiss={() => setNewBadge(null)} />
         {perfect && <Confetti />}
         <span className="text-7xl animate-bounce-in">{perfect ? "🏆" : pct >= 70 ? "🌟" : "💪"}</span>
-        <h2 className="font-display text-4xl font-bold text-primary">
+        <h2 className="font-display text-4xl font-bold text-[#2B3A8C]">
           {perfect ? "Parfait !" : pct >= 70 ? "Bravo !" : "Continue !"}
         </h2>
         <p className="text-2xl font-bold text-gray-700">{score} / {words.length} mots connus</p>
@@ -108,7 +127,7 @@ function FlashcardsContent() {
         <div className="flex gap-3 mt-2">
           <button
             onClick={restart}
-            className="px-6 py-3 bg-primary text-white rounded-2xl font-bold text-lg hover:opacity-90 transition-all hover:scale-105"
+            className="px-6 py-3 bg-[#2B3A8C] text-white rounded-2xl font-bold text-lg hover:opacity-90 transition-all hover:scale-105"
           >
             🔄 Rejouer
           </button>
@@ -126,7 +145,7 @@ function FlashcardsContent() {
   if (!currentWord) {
     return (
       <div className="flex flex-col items-center justify-center min-h-[60vh] gap-3">
-        <div className="w-12 h-12 border-4 border-primary/30 border-t-primary rounded-full animate-spin" />
+        <div className="w-12 h-12 border-4 border-[#2B3A8C]/30 border-t-[#2B3A8C] rounded-full animate-spin" />
       </div>
     );
   }
@@ -153,7 +172,7 @@ export default function FlashcardsPage() {
       <Suspense
         fallback={
           <div className="flex flex-col items-center justify-center min-h-[60vh] gap-3">
-            <div className="w-12 h-12 border-4 border-primary/30 border-t-primary rounded-full animate-spin" />
+            <div className="w-12 h-12 border-4 border-[#2B3A8C]/30 border-t-[#2B3A8C] rounded-full animate-spin" />
           </div>
         }
       >

@@ -4,13 +4,17 @@ import { Suspense, useState, useEffect, useCallback } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import type { VocabWord, UserProfile, GenerateQuizResponse, WordLevel } from "@/types";
 import { getDistractors, WORDS, VALID_LEVELS } from "@/lib/words";
-import { getWordsToReview, markWord, addSession } from "@/lib/progress";
+import { getWordsToReview, markWord, addSession, addXP, markModePlayed } from "@/lib/progress";
+import { checkAndUnlockBadges } from "@/lib/badges";
+import type { Badge } from "@/lib/badges";
+import { playSound, preloadVoices } from "@/lib/sound";
 import Navigation from "@/components/Navigation";
 import ProgressBar from "@/components/ProgressBar";
 import ScoreDisplay from "@/components/ScoreDisplay";
 import AudioButton from "@/components/AudioButton";
 import LevelBadge from "@/components/LevelBadge";
 import Confetti from "@/components/Confetti";
+import BadgeUnlock from "@/components/BadgeUnlock";
 
 const SESSION_SIZE = 10;
 
@@ -54,6 +58,9 @@ function QuizContent() {
   const [done, setDone] = useState(false);
   const [feedback, setFeedback] = useState<"correct" | "wrong" | null>(null);
   const [waitingNext, setWaitingNext] = useState(false);
+  const [newBadge, setNewBadge] = useState<Badge | null>(null);
+
+  useEffect(() => { preloadVoices(); }, []);
 
   useEffect(() => {
     setWords(getWordsToReview(profile, level).slice(0, SESSION_SIZE));
@@ -103,12 +110,32 @@ function QuizContent() {
     if (currentWord) buildChoices(currentWord);
   }, [currentWord, buildChoices]);
 
+  function finishSession(finalScore: number, reviewed: string[]) {
+    addSession(profile, { mode: "quiz", score: finalScore, wordsReviewed: reviewed });
+    markModePlayed(profile, "quiz");
+    if (finalScore === words.length) {
+      playSound("perfect");
+    } else {
+      playSound("session-complete");
+    }
+    const newlyUnlocked = checkAndUnlockBadges(profile);
+    if (newlyUnlocked.length > 0) setNewBadge(newlyUnlocked[0]);
+    setDone(true);
+  }
+
   function handleChoice(choice: Choice) {
     if (selected || !currentWord) return;
     setSelected(choice.word);
     const correct = choice.isCorrect;
     setFeedback(correct ? "correct" : "wrong");
     markWord(profile, currentWord.id, correct);
+
+    if (correct) {
+      addXP(profile, 10);
+      playSound("correct");
+    } else {
+      playSound("wrong");
+    }
 
     const newScore = correct ? score + 1 : score;
     if (correct) setScore(newScore);
@@ -119,8 +146,7 @@ function QuizContent() {
     if (correct) {
       setTimeout(() => {
         if (currentIndex + 1 >= words.length) {
-          addSession(profile, { mode: "quiz", score: newScore, wordsReviewed: newReviewed });
-          setDone(true);
+          finishSession(newScore, newReviewed);
         } else {
           setCurrentIndex((i) => i + 1);
         }
@@ -133,8 +159,7 @@ function QuizContent() {
   function handleNext() {
     setWaitingNext(false);
     if (currentIndex + 1 >= words.length) {
-      addSession(profile, { mode: "quiz", score, wordsReviewed: reviewedIds });
-      setDone(true);
+      finishSession(score, reviewedIds);
     } else {
       setCurrentIndex((i) => i + 1);
     }
@@ -161,6 +186,7 @@ function QuizContent() {
     const isPerfect = pct === 100;
     return (
       <div className="flex flex-col items-center gap-5 px-4 py-8 max-w-lg mx-auto text-center">
+        <BadgeUnlock badge={newBadge} onDismiss={() => setNewBadge(null)} />
         {isPerfect && <Confetti />}
 
         <div className="animate-bounce-in">
@@ -209,7 +235,7 @@ function QuizContent() {
           )}
           <button
             onClick={() => restart(false)}
-            className="btn-answer w-full py-4 bg-gradient-to-r from-primary to-violet-600 text-white rounded-2xl font-bold text-lg shadow-lg shadow-primary/30"
+            className="btn-answer w-full py-4 bg-gradient-to-r from-[#2B3A8C] to-[#1a2a6e] text-white rounded-2xl font-bold text-lg shadow-lg shadow-primary/30"
           >
             🔄 Nouvelle session
           </button>
@@ -247,8 +273,8 @@ function QuizContent() {
       </div>
 
       {/* Carte mot */}
-      <div className="relative bg-white rounded-3xl shadow-lg border-2 border-primary/10 overflow-hidden p-6 flex flex-col items-center gap-3">
-        <div className="absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r from-primary via-violet-400 to-secondary" />
+      <div className="relative bg-white rounded-3xl shadow-lg border-2 border-[#2B3A8C]/10 overflow-hidden p-6 flex flex-col items-center gap-3">
+        <div className="absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r from-[#2B3A8C] via-[#4a6fa8] to-[#C8102E]" />
         <div className="flex items-center gap-3">
           <LevelBadge level={currentWord.level} size="sm" />
           <span className="text-xs text-gray-400 italic">{currentWord.category}</span>
@@ -328,7 +354,7 @@ function QuizContent() {
       {waitingNext && (
         <button
           onClick={handleNext}
-          className="btn-answer w-full py-4 bg-gradient-to-r from-primary to-violet-600 text-white rounded-2xl font-bold text-lg shadow-lg shadow-primary/30 animate-slide-up"
+          className="btn-answer w-full py-4 bg-gradient-to-r from-[#2B3A8C] to-[#1a2a6e] text-white rounded-2xl font-bold text-lg shadow-lg shadow-primary/30 animate-slide-up"
         >
           Suivant →
         </button>

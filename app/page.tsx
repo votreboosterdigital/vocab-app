@@ -102,7 +102,7 @@ export default function HomePage() {
     <main className="min-h-screen bg-app-bg pb-10">
 
       {/* ── Hero header ─────────────────────────────────────────── */}
-      <div className="bg-gradient-to-br from-primary via-violet-600 to-purple-700 px-4 pt-8 pb-14 text-center relative overflow-hidden">
+      <div className="bg-gradient-to-br from-primary via-violet-600 to-purple-700 px-4 pt-8 pb-14 text-center relative">
         <div className="absolute inset-0 opacity-10"
           style={{ backgroundImage: "radial-gradient(circle, white 1px, transparent 1px)", backgroundSize: "24px 24px" }} />
 
@@ -121,21 +121,21 @@ export default function HomePage() {
         <div className="absolute top-5 right-1/4 text-base opacity-30 animate-float" style={{ animationDelay: "2s", animationDuration: "4.2s" }}>✨</div>
 
         <div className="relative flex flex-col items-center">
-          {/* Bulle — statique (hors du floating div pour ne pas déborder) */}
-          <div className="relative mb-1 animate-bounce-in">
-            <div className="bg-white rounded-2xl px-4 py-1.5 shadow-lg font-bold text-primary text-sm inline-flex items-center gap-1.5">
-              <span>Hello!</span>
-              <span className="inline-block animate-float" style={{ animationDuration: "1.6s" }}>👋</span>
-            </div>
-            {/* Triangle vers le bas → pointe vers le mascot */}
-            <div className="absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-full w-0 h-0
-              border-l-[8px] border-r-[8px] border-t-[9px]
-              border-l-transparent border-r-transparent border-t-white" />
-          </div>
-
-          {/* Mascot flottant */}
-          <div className="animate-float" style={{ animationDuration: "3.2s" }}>
+          {/* Mascot + bulle attachée, tout flotte ensemble */}
+          <div className="relative animate-float" style={{ animationDuration: "3.2s" }}>
             <BritishMascot className="h-44 w-auto drop-shadow-[0_8px_24px_rgba(0,0,0,0.35)]" />
+
+            {/* Bulle à droite, au niveau du visage, triangle pointant vers le guard */}
+            <div className="absolute left-full top-[60px] ml-2 animate-bounce-in">
+              {/* Triangle pointant gauche */}
+              <div className="absolute left-0 top-1/2 -translate-x-full -translate-y-1/2
+                w-0 h-0
+                border-t-[8px] border-b-[8px] border-r-[10px]
+                border-t-transparent border-b-transparent border-r-white" />
+              <div className="bg-white rounded-2xl px-4 py-2 shadow-xl font-bold text-primary text-sm whitespace-nowrap">
+                Hello! <span className="inline-block animate-float" style={{ animationDuration: "1.6s" }}>👋</span>
+              </div>
+            </div>
           </div>
 
           <h1 className="font-display text-5xl font-bold text-white drop-shadow-md mt-2">WordQuest</h1>

@@ -142,9 +142,9 @@ export default function HomePage() {
           transition={{ duration: 0.4 }}
         >
           <h1 className="font-display text-3xl font-bold text-[#1a1a3e]">
-            Apprends l&apos;anglais 🇬🇧
+            Eya learn English
           </h1>
-          <p className="text-gray-500 text-sm mt-1">Choisis ton profil et commence !</p>
+          <p className="text-gray-500 text-sm mt-1">With Daddy 🇬🇧</p>
         </motion.div>
 
         {/* ── Profils ──────────────────────────────────────────── */}

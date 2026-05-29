@@ -89,8 +89,8 @@ body {
   50%       { box-shadow: 0 0 0 12px rgba(107, 203, 119, 0); }
 }
 @keyframes bus-ride {
-  0%   { transform: translateX(110%); }
-  100% { transform: translateX(-120%); }
+  0%   { left: 100%; }
+  100% { left: -70px; }
 }
 
 .animate-bounce-in   { animation: bounce-in 0.4s ease-out both; }
@@ -101,7 +101,7 @@ body {
 .animate-streak-fire { animation: streak-fire 0.8s ease-in-out infinite; }
 .animate-pulse-scale { animation: pulse-scale 2s ease-in-out infinite; }
 .animate-glow-correct{ animation: glow-correct 1s ease-out; }
-.animate-bus-ride    { animation: bus-ride 18s linear infinite; }
+.animate-bus-ride    { position: absolute; animation: bus-ride 18s linear infinite; }
 
 /* Confetti — cercles colorés */
 .confetti-piece {

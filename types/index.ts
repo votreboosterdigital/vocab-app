@@ -32,6 +32,7 @@ export interface UserProgress {
   sessions: GameSession[];
   currentStreak: number;
   lastPlayDate: string;
+  modesPlayed: Array<"flashcard" | "quiz" | "fill">;
 }
 
 export interface GenerateSentenceResponse {

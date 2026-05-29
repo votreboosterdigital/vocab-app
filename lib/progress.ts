@@ -15,6 +15,7 @@ function defaultProgress(profile: UserProfile): UserProgress {
     sessions: [],
     currentStreak: 0,
     lastPlayDate: "",
+    modesPlayed: [],
   };
 }
 
@@ -112,4 +113,30 @@ export function getSessionProfile(): UserProfile | null {
 export function setSessionProfile(profile: UserProfile): void {
   if (typeof window === "undefined") return;
   sessionStorage.setItem("vocabapp_profile", profile);
+}
+
+export function getXP(profile: UserProfile): number {
+  if (typeof window === "undefined") return 0;
+  const raw = localStorage.getItem(`${STORAGE_PREFIX}xp_${profile}`);
+  return raw ? parseInt(raw, 10) : 0;
+}
+
+export function addXP(profile: UserProfile, amount: number): number {
+  if (typeof window === "undefined") return 0;
+  const current = getXP(profile);
+  const next = current + amount;
+  localStorage.setItem(`${STORAGE_PREFIX}xp_${profile}`, String(next));
+  return next;
+}
+
+export function markModePlayed(
+  profile: UserProfile,
+  mode: "flashcard" | "quiz" | "fill"
+): void {
+  const progress = getProgress(profile);
+  const modes = progress.modesPlayed ?? [];
+  if (!modes.includes(mode)) {
+    progress.modesPlayed = [...modes, mode];
+    saveProgress(progress);
+  }
 }

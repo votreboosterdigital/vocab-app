@@ -2,13 +2,14 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
+import { motion } from "framer-motion";
 import type { UserProfile, WordLevel } from "@/types";
-import { getProgress, getMasteredCount, updateStreak, setSessionProfile } from "@/lib/progress";
+import { getProgress, getMasteredCount, updateStreak, setSessionProfile, getXP } from "@/lib/progress";
 import { WORDS } from "@/lib/words";
-import BritishMascot from "@/components/BritishMascot";
+import LondonSkyline from "@/components/LondonSkyline";
 
 function UnionJackMini({ size = 24 }: { size?: number }) {
-  const h = Math.round(size * 2 / 3);
+  const h = Math.round((size * 2) / 3);
   return (
     <svg viewBox="0 0 30 20" width={size} height={h} xmlns="http://www.w3.org/2000/svg" style={{ borderRadius: 2 }}>
       <rect width="30" height="20" fill="#012169" />
@@ -24,11 +25,11 @@ function UnionJackMini({ size = 24 }: { size?: number }) {
   );
 }
 
-const PROFILE_STYLES: Record<UserProfile, { gradient: string; emoji: string; ring: string; dark?: boolean }> = {
-  "papa":       { gradient: "from-green-500 to-emerald-600",  emoji: "👨", ring: "ring-green-400"  },
-  "Eya":        { gradient: "from-blue-500 to-violet-600",    emoji: "👧", ring: "ring-blue-400"   },
-  "Ma khadija": { gradient: "from-red-500 to-rose-600",       emoji: "👩", ring: "ring-red-400"    },
-  "Maman":      { gradient: "from-amber-100 to-stone-200",    emoji: "👩‍🦱", ring: "ring-amber-300", dark: true },
+const PROFILE_STYLES: Record<UserProfile, { gradient: string; emoji: string; ring: string; textDark?: boolean }> = {
+  papa:         { gradient: "from-[#2B3A8C] to-[#1a2a6e]",  emoji: "👨",  ring: "ring-[#2B3A8C]"   },
+  Eya:          { gradient: "from-[#C8102E] to-[#8b0a1e]",  emoji: "👧",  ring: "ring-[#C8102E]"   },
+  "Ma khadija": { gradient: "from-[#f59e0b] to-[#d97706]",  emoji: "👩",  ring: "ring-amber-400", textDark: true },
+  Maman:        { gradient: "from-emerald-500 to-emerald-700", emoji: "👩‍🦱", ring: "ring-emerald-400" },
 };
 
 const MODES = [
@@ -37,24 +38,24 @@ const MODES = [
     emoji: "🃏",
     title: "Flashcards",
     desc: "Apprends un mot à la fois",
-    gradient: "from-violet-500 to-purple-700",
-    shadow: "shadow-violet-300/60",
+    gradient: "from-[#2B3A8C] to-[#1a2a6e]",
+    shadow: "shadow-blue-400/40",
   },
   {
     href: "/quiz",
     emoji: "🎯",
     title: "Quiz",
     desc: "4 choix, trouve la bonne réponse",
-    gradient: "from-rose-500 to-red-600",
-    shadow: "shadow-rose-300/60",
+    gradient: "from-[#C8102E] to-[#8b0a1e]",
+    shadow: "shadow-red-400/40",
   },
   {
     href: "/fill",
     emoji: "✏️",
     title: "Complète la phrase",
     desc: "Trouve le mot manquant dans une phrase",
-    gradient: "from-amber-400 to-orange-500",
-    shadow: "shadow-amber-300/60",
+    gradient: "from-[#f59e0b] to-[#d97706]",
+    shadow: "shadow-amber-400/40",
   },
 ] as const;
 
@@ -64,7 +65,7 @@ const LEVELS: { value: WordLevel | "all"; label: string; idle: string; active: s
   { value: "B1",  label: "B1",   idle: "bg-white text-yellow-600 border-yellow-200",   active: "bg-yellow-500 text-white border-yellow-500 shadow-md shadow-yellow-200"   },
   { value: "B2",  label: "B2",   idle: "bg-white text-orange-600 border-orange-200",   active: "bg-orange-500 text-white border-orange-500 shadow-md shadow-orange-200"   },
   { value: "C1",  label: "C1",   idle: "bg-white text-purple-600 border-purple-200",   active: "bg-purple-500 text-white border-purple-500 shadow-md shadow-purple-200"   },
-  { value: "all", label: "Tout", idle: "bg-white text-primary border-primary/30",      active: "bg-primary text-white border-primary shadow-md shadow-primary/30"         },
+  { value: "all", label: "Tout", idle: "bg-white text-[#2B3A8C] border-[#2B3A8C]/30",  active: "bg-[#2B3A8C] text-white border-[#2B3A8C] shadow-md shadow-[#2B3A8C]/30"  },
 ];
 
 export default function HomePage() {
@@ -72,6 +73,7 @@ export default function HomePage() {
   const [selectedLevel, setSelectedLevel] = useState<WordLevel | "all">("all");
   const [mastered, setMastered] = useState(0);
   const [streak, setStreak] = useState(0);
+  const [xp, setXp] = useState(0);
 
   useEffect(() => {
     const stored = sessionStorage.getItem("vocabapp_profile") as UserProfile | null;
@@ -79,6 +81,7 @@ export default function HomePage() {
       setProfile(stored);
       setMastered(getMasteredCount(stored));
       setStreak(updateStreak(stored));
+      setXp(getXP(stored));
     }
   }, []);
 
@@ -88,6 +91,7 @@ export default function HomePage() {
     sessionStorage.setItem("vocabapp_level", selectedLevel);
     setMastered(getMasteredCount(p));
     setStreak(updateStreak(p));
+    setXp(getXP(p));
   }
 
   function handleLevelChange(level: WordLevel | "all") {
@@ -99,56 +103,57 @@ export default function HomePage() {
   const lastSession = progress?.sessions.at(-1);
 
   return (
-    <main className="min-h-screen bg-app-bg pb-10">
+    <main className="min-h-screen bg-[#F5F7FF] pb-10">
 
-      {/* ── Hero header ─────────────────────────────────────────── */}
-      <div className="bg-gradient-to-br from-primary via-violet-600 to-purple-700 px-4 pt-8 pb-14 text-center relative">
-        <div className="absolute inset-0 opacity-10"
-          style={{ backgroundImage: "radial-gradient(circle, white 1px, transparent 1px)", backgroundSize: "24px 24px" }} />
-
-        {/* Drapeaux flottants décoratifs */}
-        <div className="absolute top-4 left-4 opacity-55 animate-float" style={{ animationDelay: "0.4s", animationDuration: "4s" }}>
+      {/* ── Sticky header ─────────────────────────────────────── */}
+      <header className="sticky top-0 z-20 bg-white/95 backdrop-blur-sm shadow-sm px-4 py-3 flex items-center justify-between">
+        <div className="flex items-center gap-2">
           <UnionJackMini size={28} />
+          <span className="font-display text-xl font-bold text-[#1a1a3e]">WordQuest</span>
         </div>
-        <div className="absolute top-7 right-5 opacity-45 animate-float" style={{ animationDelay: "1.1s", animationDuration: "3.6s" }}>
-          <UnionJackMini size={22} />
-        </div>
-        <div className="absolute bottom-10 left-7 opacity-35 animate-float" style={{ animationDelay: "0.9s", animationDuration: "5s" }}>
-          <UnionJackMini size={18} />
-        </div>
-        <div className="absolute bottom-8 right-8 text-2xl opacity-50 animate-float" style={{ animationDelay: "0.6s", animationDuration: "4.4s" }}>👑</div>
-        <div className="absolute top-14 left-1/4 text-base opacity-30 animate-float" style={{ animationDelay: "1.6s", animationDuration: "3.8s" }}>⭐</div>
-        <div className="absolute top-5 right-1/4 text-base opacity-30 animate-float" style={{ animationDelay: "2s", animationDuration: "4.2s" }}>✨</div>
-
-        <div className="relative flex flex-col items-center">
-          {/* Mascot + bulle attachée, tout flotte ensemble */}
-          <div className="relative animate-float" style={{ animationDuration: "3.2s" }}>
-            <BritishMascot className="h-44 w-auto drop-shadow-[0_8px_24px_rgba(0,0,0,0.35)]" />
-
-            {/* Bulle à droite, au niveau du visage, triangle pointant vers le guard */}
-            <div className="absolute left-full top-[60px] ml-2 animate-bounce-in">
-              {/* Triangle pointant gauche */}
-              <div className="absolute left-0 top-1/2 -translate-x-full -translate-y-1/2
-                w-0 h-0
-                border-t-[8px] border-b-[8px] border-r-[10px]
-                border-t-transparent border-b-transparent border-r-white" />
-              <div className="bg-white rounded-2xl px-4 py-2 shadow-xl font-bold text-primary text-sm whitespace-nowrap">
-                Hello! <span className="inline-block animate-float" style={{ animationDuration: "1.6s" }}>👋</span>
+        <div className="flex items-center gap-2">
+          {profile && (
+            <>
+              <div className="flex items-center gap-1 bg-amber-50 border border-amber-200 rounded-full px-2.5 py-1">
+                <span className="text-xs">⭐</span>
+                <span className="text-xs font-bold text-amber-700">{xp} XP</span>
               </div>
-            </div>
-          </div>
-
-          <h1 className="font-display text-5xl font-bold text-white drop-shadow-md mt-2">WordQuest</h1>
-          <p className="text-violet-200 text-base font-semibold mt-1">
-            Apprends l&apos;anglais en famille !
-          </p>
+              {streak > 0 && (
+                <div className="flex items-center gap-1 bg-red-50 border border-red-200 rounded-full px-2.5 py-1">
+                  <span className="text-xs">🔥</span>
+                  <span className="text-xs font-bold text-red-600">{streak}</span>
+                </div>
+              )}
+            </>
+          )}
         </div>
-      </div>
+      </header>
 
-      <div className="px-4 max-w-lg mx-auto -mt-5">
+      {/* ── London Skyline hero ──────────────────────────────── */}
+      <LondonSkyline height={148} animated />
 
-        {/* ── Sélecteur de profil ──────────────────────────────── */}
-        <section className="mb-5 animate-slide-up">
+      <div className="px-4 max-w-lg mx-auto mt-2">
+
+        {/* ── Title ────────────────────────────────────────────── */}
+        <motion.div
+          className="text-center mb-5"
+          initial={{ opacity: 0, y: 16 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.4 }}
+        >
+          <h1 className="font-display text-3xl font-bold text-[#1a1a3e]">
+            Apprends l&apos;anglais 🇬🇧
+          </h1>
+          <p className="text-gray-500 text-sm mt-1">Choisis ton profil et commence !</p>
+        </motion.div>
+
+        {/* ── Profils ──────────────────────────────────────────── */}
+        <motion.section
+          className="mb-5"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.4, delay: 0.08 }}
+        >
           <div className="bg-white rounded-3xl shadow-xl p-5">
             <p className="text-center text-xs font-bold text-gray-400 uppercase tracking-widest mb-4">
               👤 Qui joue ?
@@ -166,7 +171,7 @@ export default function HomePage() {
                       font-display text-lg font-bold transition-all duration-200
                       hover:scale-105 active:scale-95
                       ${isActive
-                        ? `bg-gradient-to-br ${s.gradient} ${s.dark ? "text-stone-700" : "text-white"} shadow-xl ring-4 ${s.ring} ring-offset-2 scale-105`
+                        ? `bg-gradient-to-br ${s.gradient} ${s.textDark ? "text-stone-800" : "text-white"} shadow-xl ring-4 ${s.ring} ring-offset-2 scale-105`
                         : "bg-gray-50 text-gray-600 border-2 border-gray-100 hover:border-gray-200 hover:shadow-md"
                       }
                     `}
@@ -174,7 +179,7 @@ export default function HomePage() {
                     <span className="text-4xl leading-none">{s.emoji}</span>
                     <span>{p === "papa" ? "Papa" : p === "Maman" ? "Maman" : p}</span>
                     {isActive && (
-                      <span className="absolute -top-2 -right-2 w-6 h-6 bg-white rounded-full flex items-center justify-center text-xs shadow-md text-primary font-black">
+                      <span className="absolute -top-2 -right-2 w-6 h-6 bg-white rounded-full flex items-center justify-center text-xs shadow-md text-[#2B3A8C] font-black">
                         ✓
                       </span>
                     )}
@@ -183,15 +188,20 @@ export default function HomePage() {
               })}
             </div>
           </div>
-        </section>
+        </motion.section>
 
-        {/* ── Stats ───────────────────────────────────────────────── */}
+        {/* ── Stats ────────────────────────────────────────────── */}
         {profile && (
-          <section className="mb-5 animate-bounce-in">
+          <motion.section
+            className="mb-5"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.4, delay: 0.16 }}
+          >
             <div className="grid grid-cols-3 gap-3">
-              <div className="bg-gradient-to-br from-violet-50 to-primary/10 rounded-2xl p-4 text-center border border-primary/15 shadow-sm">
-                <p className="font-display text-3xl font-bold text-primary">{mastered}</p>
-                <p className="text-xs font-bold text-primary/60 mt-0.5">maîtrisés</p>
+              <div className="bg-gradient-to-br from-blue-50 to-[#2B3A8C]/10 rounded-2xl p-4 text-center border border-[#2B3A8C]/15 shadow-sm">
+                <p className="font-display text-3xl font-bold text-[#2B3A8C]">{mastered}</p>
+                <p className="text-xs font-bold text-[#2B3A8C]/60 mt-0.5">maîtrisés</p>
                 <p className="text-xs text-gray-400">/ {WORDS.length}</p>
               </div>
               <div className="bg-gradient-to-br from-orange-50 to-amber-100 rounded-2xl p-4 text-center border border-orange-200 shadow-sm">
@@ -205,18 +215,23 @@ export default function HomePage() {
                   }
                 </p>
               </div>
-              <div className="bg-gradient-to-br from-emerald-50 to-green-100 rounded-2xl p-4 text-center border border-emerald-200 shadow-sm">
-                <p className="font-display text-3xl font-bold text-emerald-600">
+              <div className="bg-gradient-to-br from-amber-50 to-yellow-100 rounded-2xl p-4 text-center border border-amber-200 shadow-sm">
+                <p className="font-display text-3xl font-bold text-amber-600">
                   {lastSession ? `${lastSession.score}/${lastSession.wordsReviewed.length}` : "—"}
                 </p>
-                <p className="text-xs font-bold text-emerald-600/70 mt-0.5">dernier score</p>
+                <p className="text-xs font-bold text-amber-600/70 mt-0.5">dernier score</p>
               </div>
             </div>
-          </section>
+          </motion.section>
         )}
 
-        {/* ── Sélecteur de niveau ──────────────────────────────── */}
-        <section className="mb-5">
+        {/* ── Niveau ───────────────────────────────────────────── */}
+        <motion.section
+          className="mb-5"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.4, delay: 0.24 }}
+        >
           <p className="text-xs font-bold text-gray-400 uppercase tracking-widest mb-3">
             📊 Niveau
           </p>
@@ -235,10 +250,15 @@ export default function HomePage() {
               </button>
             ))}
           </div>
-        </section>
+        </motion.section>
 
-        {/* ── Modes ───────────────────────────────────────────────── */}
-        <section className="mb-5">
+        {/* ── Modes ────────────────────────────────────────────── */}
+        <motion.section
+          className="mb-5"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.4, delay: 0.32 }}
+        >
           <p className="text-xs font-bold text-gray-400 uppercase tracking-widest mb-3">
             🎮 Choisir un mode
           </p>
@@ -279,17 +299,32 @@ export default function HomePage() {
               ↑ Sélectionne un profil pour commencer
             </p>
           )}
-        </section>
+        </motion.section>
 
-        {/* ── Dashboard ─────────────────────────────────────────── */}
-        <Link
-          href="/dashboard"
-          className="btn-answer flex items-center gap-3 py-4 px-5 rounded-2xl bg-white border-2 border-gray-200 text-gray-600 font-bold hover:border-primary/40 hover:text-primary transition-all shadow-sm"
+        {/* ── Dashboard + Badges ───────────────────────────────── */}
+        <motion.div
+          className="flex gap-3"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.4, delay: 0.4 }}
         >
-          <span className="text-2xl">📊</span>
-          <span className="font-display text-lg flex-1">Classement &amp; Stats</span>
-          <span className="text-gray-300 text-xl">›</span>
-        </Link>
+          <Link
+            href="/dashboard"
+            className="btn-answer flex-1 flex items-center gap-3 py-4 px-4 rounded-2xl bg-white border-2 border-gray-200 text-gray-600 font-bold hover:border-[#2B3A8C]/40 hover:text-[#2B3A8C] transition-all shadow-sm"
+          >
+            <span className="text-xl">📊</span>
+            <span className="font-display text-base flex-1">Stats</span>
+            <span className="text-gray-300 text-lg">›</span>
+          </Link>
+          <Link
+            href="/badges"
+            className="btn-answer flex-1 flex items-center gap-3 py-4 px-4 rounded-2xl bg-white border-2 border-gray-200 text-gray-600 font-bold hover:border-amber-400/60 hover:text-amber-600 transition-all shadow-sm"
+          >
+            <span className="text-xl">🏅</span>
+            <span className="font-display text-base flex-1">Badges</span>
+            <span className="text-gray-300 text-lg">›</span>
+          </Link>
+        </motion.div>
 
       </div>
     </main>

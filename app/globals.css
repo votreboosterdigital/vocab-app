@@ -1,19 +1,21 @@
 @import "tailwindcss";
 
 @theme {
-  --color-primary: #6C63FF;
-  --color-secondary: #FF6B6B;
-  --color-accent: #FFD93D;
+  --color-primary: #2B3A8C;
+  --color-secondary: #C8102E;
+  --color-accent: #f59e0b;
   --color-success: #6BCB77;
-  --color-app-bg: #EEEEFF;
+  --color-app-bg: #F5F7FF;
+  --color-british-navy: #1a1a3e;
+  --color-british-cream: #FFF8E8;
 
   --font-display: var(--font-fredoka);
   --font-body: var(--font-nunito);
 }
 
 :root {
-  --background: #EEEEFF;
-  --foreground: #1E1B4B;
+  --background: #F5F7FF;
+  --foreground: #1a1a3e;
 }
 
 body {
@@ -86,6 +88,10 @@ body {
   0%, 100% { box-shadow: 0 0 0 0 rgba(107, 203, 119, 0.6); }
   50%       { box-shadow: 0 0 0 12px rgba(107, 203, 119, 0); }
 }
+@keyframes bus-ride {
+  0%   { transform: translateX(110%); }
+  100% { transform: translateX(-120%); }
+}
 
 .animate-bounce-in   { animation: bounce-in 0.4s ease-out both; }
 .animate-shake       { animation: shake 0.45s ease both; }
@@ -95,6 +101,7 @@ body {
 .animate-streak-fire { animation: streak-fire 0.8s ease-in-out infinite; }
 .animate-pulse-scale { animation: pulse-scale 2s ease-in-out infinite; }
 .animate-glow-correct{ animation: glow-correct 1s ease-out; }
+.animate-bus-ride    { animation: bus-ride 18s linear infinite; }
 
 /* Confetti — cercles colorés */
 .confetti-piece {
@@ -125,10 +132,10 @@ body {
 .progress-bar-animated {
   background: linear-gradient(
     90deg,
-    #6C63FF 0%,
-    #9B8FFF 40%,
-    #6C63FF 80%,
-    #6C63FF 100%
+    #2B3A8C 0%,
+    #4a5fa8 40%,
+    #2B3A8C 80%,
+    #2B3A8C 100%
   );
   background-size: 200% 100%;
   animation: progress-shimmer 2s linear infinite;
@@ -136,7 +143,7 @@ body {
 
 /* ── Gradient text ───────────────────────────────────────────── */
 .text-gradient {
-  background: linear-gradient(135deg, #6C63FF 0%, #FF6B6B 100%);
+  background: linear-gradient(135deg, #2B3A8C 0%, #C8102E 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -145,4 +152,4 @@ body {
 /* ── Scrollbar fine ──────────────────────────────────────────── */
 ::-webkit-scrollbar        { width: 6px; }
 ::-webkit-scrollbar-track  { background: transparent; }
-::-webkit-scrollbar-thumb  { background: #6C63FF55; border-radius: 9999px; }
+::-webkit-scrollbar-thumb  { background: #2B3A8C55; border-radius: 9999px; }

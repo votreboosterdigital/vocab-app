@@ -6,11 +6,11 @@ import type { UserProfile, WordLevel } from "@/types";
 import { getProgress, getMasteredCount, updateStreak, setSessionProfile } from "@/lib/progress";
 import { WORDS } from "@/lib/words";
 
-const PROFILE_STYLES: Record<UserProfile, { gradient: string; emoji: string; ring: string }> = {
-  "papa":       { gradient: "from-blue-500 to-violet-600",  emoji: "👨", ring: "ring-blue-400"   },
-  "Eya":        { gradient: "from-pink-400 to-rose-500",    emoji: "👧", ring: "ring-pink-400"   },
-  "Ma khadija": { gradient: "from-teal-400 to-cyan-500",    emoji: "👩", ring: "ring-teal-400"   },
-  "Maman":      { gradient: "from-orange-400 to-amber-500", emoji: "👩‍🦱", ring: "ring-orange-400" },
+const PROFILE_STYLES: Record<UserProfile, { gradient: string; emoji: string; ring: string; dark?: boolean }> = {
+  "papa":       { gradient: "from-green-500 to-emerald-600",  emoji: "👨", ring: "ring-green-400"  },
+  "Eya":        { gradient: "from-blue-500 to-violet-600",    emoji: "👧", ring: "ring-blue-400"   },
+  "Ma khadija": { gradient: "from-red-500 to-rose-600",       emoji: "👩", ring: "ring-red-400"    },
+  "Maman":      { gradient: "from-amber-100 to-stone-200",    emoji: "👩‍🦱", ring: "ring-amber-300", dark: true },
 };
 
 const MODES = [
@@ -117,7 +117,7 @@ export default function HomePage() {
                       font-display text-lg font-bold transition-all duration-200
                       hover:scale-105 active:scale-95
                       ${isActive
-                        ? `bg-gradient-to-br ${s.gradient} text-white shadow-xl ring-4 ${s.ring} ring-offset-2 scale-105`
+                        ? `bg-gradient-to-br ${s.gradient} ${s.dark ? "text-stone-700" : "text-white"} shadow-xl ring-4 ${s.ring} ring-offset-2 scale-105`
                         : "bg-gray-50 text-gray-600 border-2 border-gray-100 hover:border-gray-200 hover:shadow-md"
                       }
                     `}

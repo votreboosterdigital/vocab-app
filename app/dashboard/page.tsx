@@ -1,7 +1,9 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import Link from "next/link";
 import Navigation from "@/components/Navigation";
+import LondonSkyline from "@/components/LondonSkyline";
 import { getProgress, getMasteredCount, getWordsSeenCount } from "@/lib/progress";
 import { WORDS, VALID_LEVELS } from "@/lib/words";
 import type { UserProfile, WordLevel } from "@/types";
@@ -78,12 +80,13 @@ export default function DashboardPage() {
       <main className="min-h-screen bg-app-bg pb-10">
 
         {/* ── Hero classement ────────────────────────────────────── */}
-        <div className="bg-gradient-to-br from-primary via-violet-600 to-purple-700 px-4 pt-8 pb-12 text-center relative overflow-hidden">
+        <div className="bg-gradient-to-br from-[#1a1a3e] to-[#2B3A8C] px-4 pt-8 pb-12 text-center relative overflow-hidden">
           <div className="absolute inset-0 opacity-10"
             style={{ backgroundImage: "radial-gradient(circle, white 1px, transparent 1px)", backgroundSize: "24px 24px" }} />
           <h2 className="font-display text-3xl font-bold text-white relative">🏆 Classement famille</h2>
-          <p className="text-violet-200 text-sm mt-1 relative">Qui apprend le plus ?</p>
+          <p className="text-blue-200 text-sm mt-1 relative">Qui apprend le plus ?</p>
         </div>
+        <LondonSkyline height={130} />
 
         <div className="px-4 max-w-lg mx-auto -mt-6">
 
@@ -136,7 +139,7 @@ export default function DashboardPage() {
 
                     {/* Score mots vus */}
                     <div className="text-right shrink-0">
-                      <p className={`font-display font-bold text-2xl ${isFirst ? "text-amber-600" : "text-primary"}`}>
+                      <p className={`font-display font-bold text-2xl ${isFirst ? "text-amber-600" : "text-[#2B3A8C]"}`}>
                         {s.wordsSeen}
                       </p>
                       <p className="text-xs text-gray-400">mots vus</p>
@@ -185,8 +188,8 @@ export default function DashboardPage() {
                         <p className="font-display font-bold text-blue-600 text-xl">{s.wordsSeen}</p>
                         <p className="text-xs text-gray-500 mt-0.5">vus</p>
                       </div>
-                      <div className="bg-gradient-to-br from-violet-50 to-primary/10 rounded-xl p-3 text-center border border-primary/10">
-                        <p className="font-display font-bold text-primary text-xl">{s.mastered}</p>
+                      <div className="bg-gradient-to-br from-blue-50 to-[#2B3A8C]/10 rounded-xl p-3 text-center border border-[#2B3A8C]/10">
+                        <p className="font-display font-bold text-[#2B3A8C] text-xl">{s.mastered}</p>
                         <p className="text-xs text-gray-500 mt-0.5">maîtrisés</p>
                       </div>
                       <div className="bg-gradient-to-br from-orange-50 to-amber-100 rounded-xl p-3 text-center border border-orange-200">
@@ -230,6 +233,17 @@ export default function DashboardPage() {
               })}
             </div>
           </section>
+
+          <div className="mt-6">
+            <Link
+              href="/badges"
+              className="btn-answer flex items-center gap-3 py-4 px-5 rounded-2xl bg-white border-2 border-gray-200 text-gray-600 font-bold hover:border-amber-400/60 hover:text-amber-600 transition-all shadow-sm"
+            >
+              <span className="text-2xl">🏅</span>
+              <span className="font-display text-lg flex-1">Collection de badges</span>
+              <span className="text-gray-300 text-xl">›</span>
+            </Link>
+          </div>
         </div>
       </main>
     </>

@@ -121,21 +121,20 @@ export default function HomePage() {
         <div className="absolute top-5 right-1/4 text-base opacity-30 animate-float" style={{ animationDelay: "2s", animationDuration: "4.2s" }}>✨</div>
 
         <div className="relative flex flex-col items-center">
-          {/* Mascot + bulle de dialogue */}
-          <div className="relative animate-float" style={{ animationDuration: "3.2s" }}>
-            {/* Bulle de dialogue */}
-            <div className="absolute -top-11 left-1/2 -translate-x-1/2 z-10 whitespace-nowrap">
-              <div className="bg-white rounded-2xl px-4 py-1.5 shadow-lg font-bold text-primary text-sm leading-none inline-flex items-center gap-1.5">
-                <span>Hello!</span>
-                <span className="inline-block animate-float" style={{ animationDuration: "1.8s" }}>👋</span>
-              </div>
-              {/* Triangle pointant vers le bas */}
-              <div className="absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-full
-                w-0 h-0
-                border-l-[8px] border-r-[8px] border-t-[9px]
-                border-l-transparent border-r-transparent border-t-white" />
+          {/* Bulle — statique (hors du floating div pour ne pas déborder) */}
+          <div className="relative mb-1 animate-bounce-in">
+            <div className="bg-white rounded-2xl px-4 py-1.5 shadow-lg font-bold text-primary text-sm inline-flex items-center gap-1.5">
+              <span>Hello!</span>
+              <span className="inline-block animate-float" style={{ animationDuration: "1.6s" }}>👋</span>
             </div>
+            {/* Triangle vers le bas → pointe vers le mascot */}
+            <div className="absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-full w-0 h-0
+              border-l-[8px] border-r-[8px] border-t-[9px]
+              border-l-transparent border-r-transparent border-t-white" />
+          </div>
 
+          {/* Mascot flottant */}
+          <div className="animate-float" style={{ animationDuration: "3.2s" }}>
             <BritishMascot className="h-44 w-auto drop-shadow-[0_8px_24px_rgba(0,0,0,0.35)]" />
           </div>
 

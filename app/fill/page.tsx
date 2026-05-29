@@ -74,14 +74,24 @@ function FillContent() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ word: word.word, level: word.level, distractors }),
       });
+      if (!res.ok) throw new Error(`API ${res.status}`);
       const data = (await res.json()) as GenerateFillResponse & { answer: string; translation: string };
       setQuestion({ word, sentence: data.sentence, translation: data.translation, choices: data.choices, answer: data.answer });
-    } catch {
+    } catch (err) {
+      console.error("[fill] fetchQuestion error:", err);
       const distractors = getDistractors(word, 2).map((d) => d.word);
+      const fallbacks: Record<string, [string, string]> = {
+        A1: [`The _____ is here.`,           `Le _____ est ici.`],
+        A2: [`I can see the _____.`,          `Je peux voir le _____.`],
+        B1: [`The _____ is important.`,       `Le _____ est important.`],
+        B2: [`People often use the _____.`,   `Les gens utilisent souvent le _____.`],
+        C1: [`The concept of _____ is key.`,  `Le concept de _____ est essentiel.`],
+      };
+      const [sentence, translation] = fallbacks[word.level] ?? fallbacks.B1;
       setQuestion({
         word,
-        sentence: `The _____ is very common.`,
-        translation: `Le _____ est très courant.`,
+        sentence,
+        translation,
         choices: [word.word, ...distractors].sort(() => Math.random() - 0.5),
         answer: word.word,
       });

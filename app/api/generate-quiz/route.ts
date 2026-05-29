@@ -24,7 +24,7 @@ export async function POST(request: Request) {
 
   try {
     const response = await client.messages.create({
-      model: "claude-haiku-4-5",
+      model: "claude-haiku-4-5-20251001",
       max_tokens: 150,
       system: `You generate quiz distractors for an English vocabulary learning app for children. Given a target word and a pool, select ${count} plausible wrong answers (similar category or difficulty). Respond ONLY with valid JSON: {"distractors": ["word1", "word2", "word3"]}. No markdown.`,
       messages: [

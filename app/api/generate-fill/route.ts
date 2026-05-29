@@ -62,15 +62,23 @@ Rules:
   } catch (err) {
     console.error("[generate-fill] error:", err instanceof Error ? err.message : err);
 
-    /* Fallback : phrase générique avec le vrai mot */
-    const sentences: Record<string, [string, string]> = {
-      A1: [`The _____ is here.`, `Le _____ est ici.`],
-      A2: [`I can see the _____ now.`, `Je peux voir le _____ maintenant.`],
-      B1: [`The _____ is very important.`, `Le _____ est très important.`],
-      B2: [`People often use the _____ in daily life.`, `Les gens utilisent souvent le _____ dans la vie quotidienne.`],
-      C1: [`The concept of _____ plays a key role here.`, `Le concept de _____ joue un rôle clé ici.`],
-    };
-    const [sentence, translation] = sentences[level] ?? sentences.B1;
+    /* Fallback : template varié selon le mot */
+    const templates: Array<[string, string]> = [
+      [`The _____ is here.`,          `Le _____ est ici.`],
+      [`I really like the _____.`,    `J'aime beaucoup le _____.`],
+      [`She has a _____.`,            `Elle a un _____.`],
+      [`We can see the _____.`,       `On peut voir le _____.`],
+      [`The _____ is beautiful.`,     `Le _____ est beau.`],
+      [`My _____ is great.`,          `Mon _____ est super.`],
+      [`Look at the _____.`,          `Regarde le _____.`],
+      [`The _____ is very useful.`,   `Le _____ est très utile.`],
+      [`I have a _____.`,             `J'ai un _____.`],
+      [`The _____ is very nice.`,     `Le _____ est très sympa.`],
+      [`They found a _____.`,         `Ils ont trouvé un _____.`],
+      [`The _____ is quite small.`,   `Le _____ est assez petit.`],
+    ];
+    const idx = word.charCodeAt(word.length - 1) % templates.length;
+    const [sentence, translation] = templates[idx];
     const choices = [word, ...distractors.slice(0, 2)].sort(() => Math.random() - 0.5);
     return Response.json({ sentence, translation, choices, answer: word });
   }

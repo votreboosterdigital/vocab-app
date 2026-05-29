@@ -80,14 +80,23 @@ function FillContent() {
     } catch (err) {
       console.error("[fill] fetchQuestion error:", err);
       const distractors = getDistractors(word, 2).map((d) => d.word);
-      const fallbacks: Record<string, [string, string]> = {
-        A1: [`The _____ is here.`,           `Le _____ est ici.`],
-        A2: [`I can see the _____.`,          `Je peux voir le _____.`],
-        B1: [`The _____ is important.`,       `Le _____ est important.`],
-        B2: [`People often use the _____.`,   `Les gens utilisent souvent le _____.`],
-        C1: [`The concept of _____ is key.`,  `Le concept de _____ est essentiel.`],
-      };
-      const [sentence, translation] = fallbacks[word.level] ?? fallbacks.B1;
+      const templates: Array<[string, string]> = [
+        [`The _____ is here.`,          `Le _____ est ici.`],
+        [`I really like the _____.`,    `J'aime beaucoup le _____.`],
+        [`She has a _____.`,            `Elle a un _____.`],
+        [`We can see the _____.`,       `On peut voir le _____.`],
+        [`The _____ is beautiful.`,     `Le _____ est beau.`],
+        [`My _____ is great.`,          `Mon _____ est super.`],
+        [`Look at the _____.`,          `Regarde le _____.`],
+        [`The _____ is very useful.`,   `Le _____ est très utile.`],
+        [`I have a _____.`,             `J'ai un _____.`],
+        [`The _____ is very nice.`,     `Le _____ est très sympa.`],
+        [`They found a _____.`,         `Ils ont trouvé un _____.`],
+        [`The _____ is quite small.`,   `Le _____ est assez petit.`],
+      ];
+      /* Même mot → même template (déterministe via dernier char de l'id) */
+      const idx = word.id.charCodeAt(word.id.length - 1) % templates.length;
+      const [sentence, translation] = templates[idx];
       setQuestion({
         word,
         sentence,
@@ -244,7 +253,7 @@ function FillContent() {
         </p>
         {selected && (
           <p className="text-sm text-gray-500 italic text-center mt-2 animate-slide-up">
-            {question.translation.replace("_____", `"${question.answer}"`)}
+            {question.translation.replace("_____", question.word.translation)}
           </p>
         )}
       </div>

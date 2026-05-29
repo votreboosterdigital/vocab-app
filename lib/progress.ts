@@ -46,7 +46,7 @@ export function markWord(profile: UserProfile, wordId: string, correct: boolean)
     ...existing,
     correctCount: correct ? existing.correctCount + 1 : Math.max(0, existing.correctCount - 1),
     lastSeen: new Date().toISOString(),
-    mastered: correct ? existing.correctCount + 1 >= 3 : false,
+    mastered: correct ? existing.correctCount + 1 >= 2 : false,
   };
   progress.learnedWords[wordId] = updated;
   saveProgress(progress);
@@ -55,6 +55,11 @@ export function markWord(profile: UserProfile, wordId: string, correct: boolean)
 export function getMasteredCount(profile: UserProfile): number {
   const progress = getProgress(profile);
   return Object.values(progress.learnedWords).filter((w) => w.mastered).length;
+}
+
+export function getWordsSeenCount(profile: UserProfile): number {
+  const progress = getProgress(profile);
+  return Object.keys(progress.learnedWords).length;
 }
 
 export function getWordsToReview(

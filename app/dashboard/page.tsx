@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import Navigation from "@/components/Navigation";
-import { getProgress, getMasteredCount } from "@/lib/progress";
+import { getProgress, getMasteredCount, getWordsSeenCount } from "@/lib/progress";
 import { WORDS, VALID_LEVELS } from "@/lib/words";
 import type { UserProfile, WordLevel } from "@/types";
 
@@ -33,6 +33,7 @@ interface ProfileStats {
   emoji: string;
   label: string;
   mastered: number;
+  wordsSeen: number;
   streak: number;
   accuracy: number | null;
   levelProgress: Record<WordLevel, { mastered: number; total: number }>;
@@ -46,6 +47,7 @@ export default function DashboardPage() {
     const computed = PROFILES.map(({ value, emoji, label }) => {
       const progress = getProgress(value);
       const mastered = getMasteredCount(value);
+      const wordsSeen = getWordsSeenCount(value);
       const streak = progress.currentStreak;
 
       const recent = progress.sessions.slice(-5);
@@ -63,7 +65,7 @@ export default function DashboardPage() {
         })
       ) as Record<WordLevel, { mastered: number; total: number }>;
 
-      return { profile: value, emoji, label, mastered, streak, accuracy, levelProgress, sessionsCount: progress.sessions.length };
+      return { profile: value, emoji, label, mastered, wordsSeen, streak, accuracy, levelProgress, sessionsCount: progress.sessions.length };
     });
 
     computed.sort((a, b) => b.mastered - a.mastered);
@@ -132,12 +134,12 @@ export default function DashboardPage() {
                       </div>
                     )}
 
-                    {/* Score mots */}
+                    {/* Score mots vus */}
                     <div className="text-right shrink-0">
                       <p className={`font-display font-bold text-2xl ${isFirst ? "text-amber-600" : "text-primary"}`}>
-                        {s.mastered}
+                        {s.wordsSeen}
                       </p>
-                      <p className="text-xs text-gray-400">mots</p>
+                      <p className="text-xs text-gray-400">mots vus</p>
                     </div>
                   </div>
                 );
@@ -177,14 +179,18 @@ export default function DashboardPage() {
                       )}
                     </div>
 
-                    {/* Stats 3 colonnes */}
-                    <div className="grid grid-cols-3 gap-2 mb-4">
+                    {/* Stats 4 colonnes */}
+                    <div className="grid grid-cols-4 gap-2 mb-4">
+                      <div className="bg-gradient-to-br from-blue-50 to-cyan-50 rounded-xl p-3 text-center border border-blue-100">
+                        <p className="font-display font-bold text-blue-600 text-xl">{s.wordsSeen}</p>
+                        <p className="text-xs text-gray-500 mt-0.5">vus</p>
+                      </div>
                       <div className="bg-gradient-to-br from-violet-50 to-primary/10 rounded-xl p-3 text-center border border-primary/10">
-                        <p className="font-display font-bold text-primary text-2xl">{s.mastered}</p>
+                        <p className="font-display font-bold text-primary text-xl">{s.mastered}</p>
                         <p className="text-xs text-gray-500 mt-0.5">maîtrisés</p>
                       </div>
                       <div className="bg-gradient-to-br from-orange-50 to-amber-100 rounded-xl p-3 text-center border border-orange-200">
-                        <p className="font-display font-bold text-orange-500 text-2xl">
+                        <p className="font-display font-bold text-orange-500 text-xl">
                           {s.streak > 0 ? s.streak : "–"}
                         </p>
                         <p className="text-xs text-gray-500 mt-0.5">
@@ -192,7 +198,7 @@ export default function DashboardPage() {
                         </p>
                       </div>
                       <div className="bg-gray-50 rounded-xl p-3 text-center border border-gray-100">
-                        <p className="font-display font-bold text-gray-600 text-2xl">{s.sessionsCount}</p>
+                        <p className="font-display font-bold text-gray-600 text-xl">{s.sessionsCount}</p>
                         <p className="text-xs text-gray-500 mt-0.5">sessions</p>
                       </div>
                     </div>

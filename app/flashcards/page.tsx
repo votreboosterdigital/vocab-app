@@ -9,29 +9,9 @@ import Navigation from "@/components/Navigation";
 import WordCard from "@/components/WordCard";
 import ProgressBar from "@/components/ProgressBar";
 
-const CONFETTI_COLORS = ["#6C63FF", "#FF6B6B", "#FFD93D", "#6BCB77", "#FF9F43"];
-const SESSION_SIZE = 10;
+import Confetti from "@/components/Confetti";
 
-function Confetti() {
-  const pieces = Array.from({ length: 30 }, (_, i) => ({
-    id: i,
-    left: `${Math.random() * 100}%`,
-    color: CONFETTI_COLORS[i % CONFETTI_COLORS.length],
-    delay: `${Math.random() * 1.2}s`,
-    size: `${6 + Math.random() * 8}px`,
-  }));
-  return (
-    <div className="pointer-events-none fixed inset-0 z-50 overflow-hidden">
-      {pieces.map((p) => (
-        <div
-          key={p.id}
-          className="confetti-piece"
-          style={{ left: p.left, background: p.color, animationDelay: p.delay, width: p.size, height: p.size }}
-        />
-      ))}
-    </div>
-  );
-}
+const SESSION_SIZE = 10;
 
 function FlashcardsContent() {
   const searchParams = useSearchParams();
@@ -145,8 +125,8 @@ function FlashcardsContent() {
 
   if (!currentWord) {
     return (
-      <div className="flex justify-center items-center min-h-[60vh]">
-        <span className="text-4xl animate-spin">⏳</span>
+      <div className="flex flex-col items-center justify-center min-h-[60vh] gap-3">
+        <div className="w-12 h-12 border-4 border-primary/30 border-t-primary rounded-full animate-spin" />
       </div>
     );
   }
@@ -170,7 +150,13 @@ export default function FlashcardsPage() {
   return (
     <>
       <Navigation title="🃏 Flashcards" />
-      <Suspense fallback={<div className="flex justify-center items-center min-h-[60vh]"><span className="text-4xl">⏳</span></div>}>
+      <Suspense
+        fallback={
+          <div className="flex flex-col items-center justify-center min-h-[60vh] gap-3">
+            <div className="w-12 h-12 border-4 border-primary/30 border-t-primary rounded-full animate-spin" />
+          </div>
+        }
+      >
         <FlashcardsContent />
       </Suspense>
     </>

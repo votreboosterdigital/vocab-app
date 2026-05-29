@@ -16,7 +16,7 @@ export default function ProgressBar({ current, total, label }: ProgressBarProps)
             key={i}
             className={`h-2.5 rounded-full transition-all duration-300 ${
               i < current
-                ? "bg-primary w-5 shadow-sm shadow-primary/40"
+                ? "bg-[#2B3A8C] w-5 shadow-sm shadow-[#2B3A8C]/40"
                 : "bg-gray-200 w-2.5"
             }`}
           />

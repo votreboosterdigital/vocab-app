@@ -49,7 +49,7 @@ export default function WordCard({
       >
         <div className={`card-flip ${flipped ? "flipped" : ""}`}>
           {/* Face avant — mot anglais */}
-          <div className="card-face card-front flex flex-col items-center justify-center gap-3 rounded-2xl bg-white shadow-xl p-8 border-2 border-primary/20">
+          <div className="card-face card-front flex flex-col items-center justify-center gap-3 rounded-2xl bg-white shadow-xl p-8 border-2 border-[#E8F0FE]">
             <span className="text-6xl">{word.emoji}</span>
             <h2 className="font-display text-5xl font-bold text-gray-800">{word.word}</h2>
             <p className="text-gray-400 text-sm font-mono">/{word.phonetic}/</p>
@@ -61,7 +61,7 @@ export default function WordCard({
           </div>
 
           {/* Face arrière — traduction */}
-          <div className="card-face card-back flex flex-col items-center justify-center gap-3 rounded-2xl bg-primary shadow-xl p-8">
+          <div className="card-face card-back flex flex-col items-center justify-center gap-3 rounded-2xl bg-[#2B3A8C] shadow-xl p-8">
             <span className="text-6xl">{word.emoji}</span>
             <h2 className="font-display text-4xl font-bold text-white">{word.translation}</h2>
             <p className="text-white/70 text-sm font-mono">/{word.phonetic}/</p>
@@ -77,7 +77,7 @@ export default function WordCard({
 
       {/* Phrase exemple */}
       {flipped && (
-        <div className="w-full bg-accent/20 rounded-xl p-4 border border-accent/40">
+        <div className="w-full bg-[#FFF8E8] rounded-xl p-4 border border-[#f59e0b]/40">
           {loadingSentence ? (
             <div className="flex items-center gap-2 text-gray-500">
               <span className="animate-spin">⏳</span>
@@ -90,7 +90,7 @@ export default function WordCard({
                 dangerouslySetInnerHTML={{
                   __html: exampleSentence.replace(
                     /\*\*(.*?)\*\*/g,
-                    `<strong class="text-primary">$1</strong>`
+                    `<strong class="text-[#2B3A8C]">$1</strong>`
                   ),
                 }}
               />

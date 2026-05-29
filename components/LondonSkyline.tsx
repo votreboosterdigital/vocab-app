@@ -70,6 +70,18 @@ export default function LondonSkyline({
         <rect x="742" y="63" width="14" height="47" fill="#c2ceea" />
         <rect x="758" y="72" width="18" height="38" fill="#ccd8ea" />
         <rect x="778" y="62" width="22" height="48" fill="#bfcde8" />
+        {/* Remplissage des lacunes de fond */}
+        <rect x="107" y="72" width="14" height="38" fill="#c8d4ec" />
+        <rect x="123" y="66" width="14" height="44" fill="#c2ceea" />
+        <rect x="139" y="72" width="12" height="38" fill="#ccd8ea" />
+        <rect x="326" y="66" width="14" height="44" fill="#c8d4ec" />
+        <rect x="428" y="70" width="9"  height="40" fill="#c8d4ec" />
+        <rect x="457" y="74" width="8"  height="36" fill="#c2ceea" />
+        <rect x="568" y="62" width="18" height="48" fill="#c8d4ec" />
+        <rect x="587" y="68" width="16" height="42" fill="#c2ceea" />
+        <rect x="605" y="58" width="20" height="52" fill="#ccd8ea" />
+        <rect x="626" y="66" width="10" height="44" fill="#bfcde8" />
+        <rect x="729" y="68" width="14" height="42" fill="#c8d4ec" />
 
         {/* ── PARLEMENT / WESTMINSTER (gauche) ── */}
         <rect x="0"  y="83" width="100" height="27" fill="#4a6fa5" />
@@ -112,6 +124,14 @@ export default function LondonSkyline({
         <rect x="132" y="58" width="16" height="52" fill="#5a7aaa" />
         <rect x="150" y="66" width="12" height="44" fill="#4a6a9a" />
         <rect x="164" y="62" width="18" height="48" fill="#5a7aaa" />
+
+        {/* ── IMMEUBLES CENTRE (entre Westminster et le Shard) ── */}
+        <rect x="182" y="58" width="20" height="52" fill="#5a7aaa" />
+        <rect x="204" y="52" width="24" height="58" fill="#4a6a9a" />
+        <rect x="230" y="60" width="18" height="50" fill="#5a8abf" />
+        <rect x="250" y="54" width="20" height="56" fill="#4a7aaf" />
+        <rect x="272" y="62" width="16" height="48" fill="#5a7aaa" />
+        <rect x="290" y="56" width="14" height="54" fill="#4a6a9a" />
 
         {/* ── THE SHARD (pyramide) ── */}
         <polygon points="310,18 295,110 325,110" fill="#7090c0" />
@@ -173,6 +193,11 @@ export default function LondonSkyline({
         <rect x="531" y="24" width="6" height="16" fill="#4a6aa5" />
         <line x1="534" y1="16" x2="534" y2="24" stroke="#4a6aa5" strokeWidth="2" />
         <line x1="530" y1="19" x2="538" y2="19" stroke="#4a6aa5" strokeWidth="2" />
+
+        {/* ── IMMEUBLES ENTRE ST PAUL'S ET TOWER BRIDGE ── */}
+        <rect x="572" y="60" width="18" height="50" fill="#5a7aaa" />
+        <rect x="592" y="68" width="14" height="42" fill="#4a6a9a" />
+        <rect x="608" y="54" width="16" height="56" fill="#5a8abf" />
 
         {/* ── TOWER BRIDGE ── */}
         <rect x="622" y="97" width="118" height="13" fill="#3a4c8a" />

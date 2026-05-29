@@ -26,10 +26,10 @@ function UnionJackMini({ size = 24 }: { size?: number }) {
 }
 
 const PROFILE_STYLES: Record<UserProfile, { gradient: string; emoji: string; ring: string; textDark?: boolean }> = {
-  papa:         { gradient: "from-[#2B3A8C] to-[#1a2a6e]",  emoji: "👨",  ring: "ring-[#2B3A8C]"   },
-  Eya:          { gradient: "from-[#C8102E] to-[#8b0a1e]",  emoji: "👧",  ring: "ring-[#C8102E]"   },
-  "Ma khadija": { gradient: "from-[#f59e0b] to-[#d97706]",  emoji: "👩",  ring: "ring-amber-400", textDark: true },
-  Maman:        { gradient: "from-emerald-500 to-emerald-700", emoji: "👩‍🦱", ring: "ring-emerald-400" },
+  papa:         { gradient: "from-emerald-500 to-emerald-700",      emoji: "👨",  ring: "ring-emerald-400"  },
+  Eya:          { gradient: "from-blue-500 to-violet-600",          emoji: "👧",  ring: "ring-blue-400"     },
+  "Ma khadija": { gradient: "from-[#C8102E] to-[#8b0a1e]",         emoji: "👩",  ring: "ring-[#C8102E]"    },
+  Maman:        { gradient: "from-[#f5e0c0] to-[#e8c89a]",         emoji: "👩‍🦱", ring: "ring-amber-300", textDark: true },
 };
 
 const MODES = [
@@ -144,7 +144,7 @@ export default function HomePage() {
           <h1 className="font-display text-3xl font-bold text-[#1a1a3e]">
             Eya learn English
           </h1>
-          <p className="text-gray-500 text-sm mt-1">With Daddy 🇬🇧</p>
+          <p className="text-gray-500 text-base mt-1">With Daddy</p>
         </motion.div>
 
         {/* ── Profils ──────────────────────────────────────────── */}

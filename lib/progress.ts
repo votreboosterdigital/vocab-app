@@ -33,6 +33,47 @@ export function getProgress(profile: UserProfile): UserProgress {
 function saveProgress(progress: UserProgress): void {
   if (typeof window === "undefined") return;
   localStorage.setItem(storageKey(progress.profile), JSON.stringify(progress));
+  /* Sync cloud silencieux — fire and forget */
+  fetch(`/api/sync/${encodeURIComponent(progress.profile)}`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(progress),
+  }).catch(() => {});
+}
+
+export async function hydrateFromCloud(profile: UserProfile): Promise<void> {
+  if (typeof window === "undefined") return;
+  try {
+    const res = await fetch(`/api/sync/${encodeURIComponent(profile)}`);
+    if (!res.ok) return;
+    const cloud = (await res.json()) as UserProgress | null;
+    if (!cloud) return;
+
+    const local = getProgress(profile);
+    /* Merge : on garde le meilleur de chaque source */
+    const merged: UserProgress = {
+      ...cloud,
+      currentStreak: Math.max(local.currentStreak, cloud.currentStreak),
+      lastPlayDate: local.lastPlayDate > cloud.lastPlayDate ? local.lastPlayDate : cloud.lastPlayDate,
+      learnedWords: { ...cloud.learnedWords },
+      sessions: cloud.sessions,
+    };
+    /* Pour les mots vus localement mais pas dans le cloud, on les ajoute */
+    for (const [id, lw] of Object.entries(local.learnedWords)) {
+      const cw = cloud.learnedWords[id];
+      if (!cw || lw.correctCount > cw.correctCount) merged.learnedWords[id] = lw;
+    }
+    /* Merge sessions sans doublons (par date) */
+    const cloudDates = new Set(cloud.sessions.map((s) => s.date));
+    const extraLocal = local.sessions.filter((s) => !cloudDates.has(s.date));
+    merged.sessions = [...cloud.sessions, ...extraLocal]
+      .sort((a, b) => a.date.localeCompare(b.date))
+      .slice(-50);
+
+    localStorage.setItem(storageKey(profile), JSON.stringify(merged));
+  } catch {
+    /* réseau indispo — on reste sur le local */
+  }
 }
 
 export function markWord(profile: UserProfile, wordId: string, correct: boolean): void {

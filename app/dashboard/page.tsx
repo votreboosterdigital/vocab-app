@@ -4,9 +4,9 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import Navigation from "@/components/Navigation";
 import LondonSkyline from "@/components/LondonSkyline";
-import { getProgress, getMasteredCount, getWordsSeenCount } from "@/lib/progress";
+import { getProgress, getMasteredCount, getWordsSeenCount, hydrateFromCloud } from "@/lib/progress";
 import { WORDS, VALID_LEVELS } from "@/lib/words";
-import type { UserProfile, WordLevel } from "@/types";
+import type { UserProfile, WordLevel, UserProgress } from "@/types";
 
 const PROFILES: { value: UserProfile; emoji: string; label: string }[] = [
   { value: "papa",       emoji: "👨", label: "Papa"       },
@@ -42,36 +42,52 @@ interface ProfileStats {
   sessionsCount: number;
 }
 
+function computeStats(profiles: typeof PROFILES, progressMap: Map<UserProfile, UserProgress>): ProfileStats[] {
+  return PROFILES.map(({ value, emoji, label }) => {
+    const progress = progressMap.get(value) ?? getProgress(value);
+    const mastered = Object.values(progress.learnedWords).filter((w) => w.mastered).length;
+    const wordsSeen = Object.keys(progress.learnedWords).length;
+    const streak = progress.currentStreak;
+
+    const recent = progress.sessions.slice(-5);
+    const totalAnswered = recent.reduce((sum, s) => sum + s.wordsReviewed.length, 0);
+    const totalCorrect = recent.reduce((sum, s) => sum + s.score, 0);
+    const accuracy = totalAnswered > 0 ? Math.round((totalCorrect / totalAnswered) * 100) : null;
+
+    const levelProgress = Object.fromEntries(
+      VALID_LEVELS.map((level) => {
+        const total = WORDS.filter((w) => w.level === level).length;
+        const masteredCount = WORDS.filter(
+          (w) => w.level === level && progress.learnedWords[w.id]?.mastered
+        ).length;
+        return [level, { mastered: masteredCount, total }];
+      })
+    ) as Record<WordLevel, { mastered: number; total: number }>;
+
+    return { profile: value, emoji, label, mastered, wordsSeen, streak, accuracy, levelProgress, sessionsCount: progress.sessions.length };
+  }).sort((a, b) => b.mastered - a.mastered);
+}
+
 export default function DashboardPage() {
   const [stats, setStats] = useState<ProfileStats[]>([]);
+  const [syncing, setSyncing] = useState(true);
 
   useEffect(() => {
-    const computed = PROFILES.map(({ value, emoji, label }) => {
-      const progress = getProgress(value);
-      const mastered = getMasteredCount(value);
-      const wordsSeen = getWordsSeenCount(value);
-      const streak = progress.currentStreak;
+    /* Affichage immédiat depuis localStorage */
+    const localMap = new Map(PROFILES.map(({ value }) => [value, getProgress(value)]));
+    setStats(computeStats(PROFILES, localMap));
 
-      const recent = progress.sessions.slice(-5);
-      const totalAnswered = recent.reduce((sum, s) => sum + s.wordsReviewed.length, 0);
-      const totalCorrect = recent.reduce((sum, s) => sum + s.score, 0);
-      const accuracy = totalAnswered > 0 ? Math.round((totalCorrect / totalAnswered) * 100) : null;
-
-      const levelProgress = Object.fromEntries(
-        VALID_LEVELS.map((level) => {
-          const total = WORDS.filter((w) => w.level === level).length;
-          const masteredCount = WORDS.filter(
-            (w) => w.level === level && progress.learnedWords[w.id]?.mastered
-          ).length;
-          return [level, { mastered: masteredCount, total }];
-        })
-      ) as Record<WordLevel, { mastered: number; total: number }>;
-
-      return { profile: value, emoji, label, mastered, wordsSeen, streak, accuracy, levelProgress, sessionsCount: progress.sessions.length };
-    });
-
-    computed.sort((a, b) => b.mastered - a.mastered);
-    setStats(computed);
+    /* Puis hydratation cloud pour tous les profils */
+    Promise.all(
+      PROFILES.map(async ({ value }) => {
+        await hydrateFromCloud(value);
+        return [value, getProgress(value)] as [UserProfile, UserProgress];
+      })
+    ).then((entries) => {
+      const cloudMap = new Map(entries);
+      setStats(computeStats(PROFILES, cloudMap));
+      setSyncing(false);
+    }).catch(() => setSyncing(false));
   }, []);
 
   return (
@@ -84,7 +100,13 @@ export default function DashboardPage() {
           <div className="absolute inset-0 opacity-10"
             style={{ backgroundImage: "radial-gradient(circle, white 1px, transparent 1px)", backgroundSize: "24px 24px" }} />
           <h2 className="font-display text-3xl font-bold text-white relative">🏆 Classement famille</h2>
-          <p className="text-blue-200 text-sm mt-1 relative">Qui apprend le plus ?</p>
+          <p className="text-blue-200 text-sm mt-1 relative flex items-center justify-center gap-2">
+            Qui apprend le plus ?
+            {syncing
+              ? <span className="inline-flex items-center gap-1 text-violet-300 text-xs"><span className="w-2 h-2 rounded-full bg-violet-300 animate-pulse inline-block" />sync…</span>
+              : <span className="inline-flex items-center gap-1 text-emerald-300 text-xs"><span className="w-2 h-2 rounded-full bg-emerald-400 inline-block" />en ligne</span>
+            }
+          </p>
         </div>
         <LondonSkyline height={130} />
 

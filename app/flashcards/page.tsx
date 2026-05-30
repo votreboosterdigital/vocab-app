@@ -4,7 +4,7 @@ import { Suspense, useState, useEffect, useCallback } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import type { VocabWord, UserProfile, GenerateSentenceResponse, WordLevel } from "@/types";
 import { VALID_LEVELS } from "@/lib/words";
-import { getWordsToReview, markWord, addSession, addXP, markModePlayed } from "@/lib/progress";
+import { getWordsToReview, markWord, addSession, addXP, markModePlayed, hydrateFromCloud } from "@/lib/progress";
 import { checkAndUnlockBadges } from "@/lib/badges";
 import type { Badge } from "@/lib/badges";
 import { playSound, preloadVoices } from "@/lib/sound";
@@ -40,7 +40,9 @@ function FlashcardsContent() {
   }, []);
 
   useEffect(() => {
-    setWords(getWordsToReview(profile, level).slice(0, SESSION_SIZE));
+    hydrateFromCloud(profile).finally(() => {
+      setWords(getWordsToReview(profile, level).slice(0, SESSION_SIZE));
+    });
   }, [profile, level]);
 
   const currentWord = words[currentIndex];
